@@ -171,8 +171,46 @@ if (profileForm) {
 // DISPLAY PROFILE
 // ================================
 
-const savedData =
-    localStorage.getItem("profileData");
+
+// ================================
+// GET PROFILE DATA
+// ================================
+
+// Check if profile data came from QR code
+const urlParams = new URLSearchParams(window.location.search);
+
+const qrData = urlParams.get("data");
+
+let savedData = null;
+
+if (qrData) {
+
+    try {
+
+        const decodedProfile =
+            JSON.parse(
+                decodeURIComponent(qrData)
+            );
+
+        savedData =
+            JSON.stringify(decodedProfile);
+
+    } catch (error) {
+
+        console.error("Invalid QR profile data");
+
+        savedData =
+            localStorage.getItem("profileData");
+
+    }
+
+} else {
+
+    // Normal profile from same device
+    savedData =
+        localStorage.getItem("profileData");
+
+}
 
 
 if (
