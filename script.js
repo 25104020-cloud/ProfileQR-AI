@@ -578,7 +578,7 @@ if (
 
     new QRCode(homeQR, {
 
-        text: window.location.href,
+        text: "https://25104020-cloud.github.io/ProfileQR-AI/",
 
         width: 160,
 
