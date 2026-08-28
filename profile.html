@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile | ProfileQR AI</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            Profile<span>QR</span> AI
+        </a>
+
+        <a href="create-profile.html" class="back-link">
+            ← Edit Profile
+        </a>
+    </nav>
+
+
+    <!-- Profile Section -->
+    <section class="digital-profile">
+
+        <div class="profile-card">
+
+            <div class="profile-avatar" id="profileAvatar">
+                👤
+            </div>
+
+            <h1 id="displayName">Your Name</h1>
+
+            <p class="profile-title" id="displayTitle">
+                Your Professional Title
+            </p>
+
+            <div class="profile-section">
+    <h2>About Me</h2>
+    <p id="displayBio"></p>
+</div>
+
+            <div class="profile-section">
+                <h2>About / Education</h2>
+                <p id="displayEducation"></p>
+            </div>
+
+            <div class="profile-section">
+                <h2>Skills</h2>
+                <div class="skills-list" id="displaySkills"></div>
+            </div>
+
+            <div class="profile-section">
+                <h2>Projects</h2>
+                <p id="displayProjects"></p>
+            </div>
+            <div class="profile-section">
+    <h2>Achievements & Certificates 🏆</h2>
+    <p id="displayAchievements"></p>
+</div>
+
+            <div class="profile-section contact-section">
+                <h2>Contact</h2>
+
+                <p id="displayEmail"></p>
+                <p id="displayPhone"></p>
+            </div>
+            <!-- QR Code Section -->
+<div class="qr-section">
+    <h2>Scan My Profile</h2>
+    <div id="qrcode"></div>
+    <p>Scan this QR code to access my digital profile.</p>
+    <button id="downloadQR" class="download-btn">
+    Download My QR Code
+</button>
+</div>
+
+            <div class="profile-links">
+    <a id="linkedinLink" href="#" target="_blank">LinkedIn</a>
+
+    <a id="githubLink" href="#" target="_blank">GitHub</a>
+
+    <a id="resumeLink" href="#" target="_blank" style="display: none;">
+        View Resume
+    </a>
+</div>
+        </div>
+
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
