@@ -31,61 +31,71 @@ if (profileForm) {
             resumeInput.files[0];
 
 
-        // Save profile after files are processed
-        function saveProfile(photoData, resumeData) {
+       function saveProfile(photoData, resumeData) {
 
-            const profileData = {
+    const profileData = {
 
-                fullName:
-                    document.getElementById("fullName").value,
+        fullName:
+            document.getElementById("fullName").value,
 
-                title:
-                    document.getElementById("title").value,
+        title:
+            document.getElementById("title").value,
 
-                bio:
-                    document.getElementById("bio").value,
+        bio:
+            document.getElementById("bio").value,
 
-                email:
-                    document.getElementById("email").value,
+        email:
+            document.getElementById("email").value,
 
-                phone:
-                    document.getElementById("phone").value,
+        phone:
+            document.getElementById("phone").value,
 
-                education:
-                    document.getElementById("education").value,
+        education:
+            document.getElementById("education").value,
 
-                skills:
-                    document.getElementById("skills").value,
+        skills:
+            document.getElementById("skills").value,
 
-                projects:
-                    document.getElementById("projects").value,
+        projects:
+            document.getElementById("projects").value,
 
-                achievements:
-                    document.getElementById("achievements").value,
+        achievements:
+            document.getElementById("achievements").value,
 
-                linkedin:
-                    document.getElementById("linkedin").value,
+        linkedin:
+            document.getElementById("linkedin").value,
 
-                github:
-                    document.getElementById("github").value,
+        github:
+            document.getElementById("github").value,
 
-                photo: photoData,
+        photo: photoData,
 
-                resume: resumeData
-            };
-
-
-            // Save data
-            localStorage.setItem(
-                "profileData",
-                JSON.stringify(profileData)
-            );
+        // Do not save large PDF data in localStorage
+        resume: ""
+    };
 
 
-            // Open profile page
-            window.location.href = "profile.html";
-        }
+    try {
 
+        localStorage.setItem(
+            "profileData",
+            JSON.stringify(profileData)
+        );
+
+        window.location.href = "profile.html";
+
+    } catch (error) {
+
+        alert(
+            "Profile could not be saved. Please try using a smaller profile photo."
+        );
+
+        console.error(error);
+
+    }
+}
+
+  
 
         // ================================
         // READ PROFILE PHOTO
