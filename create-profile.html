@@ -12,116 +12,289 @@
 
 <body>
 
-    <!-- Navigation -->
+    <!-- ================================
+         NAVIGATION
+    ================================= -->
+
     <nav class="navbar">
+
         <div class="logo">
             Profile<span>QR</span> AI
         </div>
 
-        <a href="index.html" class="back-link">← Back to Home</a>
+        <a href="index.html" class="back-link">
+            ← Back to Home
+        </a>
+
     </nav>
 
 
-    <!-- Profile Form -->
+    <!-- ================================
+         PROFILE FORM
+    ================================= -->
+
     <section class="profile-page">
 
         <div class="form-container">
 
             <div class="form-header">
-                <p class="badge">CREATE YOUR DIGITAL IDENTITY</p>
 
-                <h1>Build Your Professional Profile</h1>
+                <p class="badge">
+                    CREATE YOUR DIGITAL IDENTITY
+                </p>
+
+                <h1>
+                    Build Your Professional Profile
+                </h1>
 
                 <p>
                     Add your information and create a professional
                     digital identity that can be shared with one QR code.
                 </p>
+
             </div>
 
 
+            <!-- PROFILE FORM -->
+
             <form id="profileForm">
-                <div class="form-group">
-    <label for="profilePhoto">Profile Photo</label>
-    <input type="file" id="profilePhoto" accept="image/*">
-</div>
-<div class="form-group">
-    <label for="resume">Upload Resume (PDF)</label>
-    <input type="file" id="resume" accept=".pdf">
-</div>
+
+
+                <!-- PROFILE PHOTO -->
 
                 <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="fullName"
-                        placeholder="Enter your full name" required>
+
+                    <label for="profilePhoto">
+                        Profile Photo
+                    </label>
+
+                    <input
+                        type="file"
+                        id="profilePhoto"
+                        accept="image/*"
+                    >
+
                 </div>
 
-                <div class="form-group">
-                    <label>Professional Title</label>
-                    <input type="text" id="title"
-                        placeholder="Example: CSE Student | Web Developer">
-                </div>
-                <div class="form-group">
-   <div class="form-group">
-    <label>About Me</label>
 
-    <textarea id="bio" placeholder="Tell us briefly about yourself, your interests and goals"></textarea>
-
-    <button type="button" class="ai-btn" onclick="testBio()">
-        ✨ Generate AI Bio
-    </button>
-</div>
+                <!-- RESUME -->
 
                 <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="email"
-                        placeholder="example@email.com">
+
+                    <label for="resume">
+                        Upload Resume (PDF)
+                    </label>
+
+                    <input
+                        type="file"
+                        id="resume"
+                        accept=".pdf,application/pdf"
+                    >
+
                 </div>
 
+
+                <!-- FULL NAME -->
+
                 <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" id="phone"
-                        placeholder="Enter your phone number">
+
+                    <label for="fullName">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="fullName"
+                        placeholder="Enter your full name"
+                        required
+                    >
+
                 </div>
 
+
+                <!-- PROFESSIONAL TITLE -->
+
                 <div class="form-group">
-                    <label>Education</label>
-                    <textarea id="education"
-                        placeholder="Example: B.E. Computer Science and Engineering"></textarea>
+
+                    <label for="title">
+                        Professional Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="title"
+                        placeholder="Example: CSE Student | Web Developer"
+                    >
+
                 </div>
 
+
+                <!-- ABOUT ME -->
+
                 <div class="form-group">
-                    <label>Skills</label>
-                    <input type="text" id="skills"
-                        placeholder="Example: C++, HTML, CSS, JavaScript">
+
+                    <label for="bio">
+                        About Me
+                    </label>
+
+                    <textarea
+                        id="bio"
+                        placeholder="Tell us briefly about yourself, your interests and goals"
+                    ></textarea>
+
+                    <button
+                        type="button"
+                        class="ai-btn"
+                        onclick="testBio()"
+                    >
+                        ✨ Generate AI Bio
+                    </button>
+
                 </div>
 
-                <div class="form-group">
-                    <label>Projects</label>
-                    <textarea id="projects"
-                        placeholder="Describe your projects"></textarea>
-                </div>
-                <div class="form-group">
-    <label for="achievements">Achievements & Certificates</label>
 
-    <textarea id="achievements"
-        placeholder="Example: First Prize in Debate Competition, SoloLearn C Programming Certificate, SkillRack Array Certificate"></textarea>
-</div>
+                <!-- EMAIL -->
 
                 <div class="form-group">
-                    <label>LinkedIn URL</label>
-                    <input type="url" id="linkedin"
-                        placeholder="https://linkedin.com/in/yourname">
-                </div>
 
-                <div class="form-group">
-                    <label>GitHub URL</label>
-                    <input type="url" id="github"
-                        placeholder="https://github.com/yourusername">
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="example@email.com"
+                    >
+
                 </div>
 
-                <button type="submit" class="primary-btn form-btn">
+
+                <!-- PHONE -->
+
+                <div class="form-group">
+
+                    <label for="phone">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        placeholder="Enter your phone number"
+                    >
+
+                </div>
+
+
+                <!-- EDUCATION -->
+
+                <div class="form-group">
+
+                    <label for="education">
+                        Education
+                    </label>
+
+                    <textarea
+                        id="education"
+                        placeholder="Example: B.E. Computer Science and Engineering"
+                    ></textarea>
+
+                </div>
+
+
+                <!-- SKILLS -->
+
+                <div class="form-group">
+
+                    <label for="skills">
+                        Skills
+                    </label>
+
+                    <input
+                        type="text"
+                        id="skills"
+                        placeholder="Example: C++, HTML, CSS, JavaScript"
+                    >
+
+                </div>
+
+
+                <!-- PROJECTS -->
+
+                <div class="form-group">
+
+                    <label for="projects">
+                        Projects
+                    </label>
+
+                    <textarea
+                        id="projects"
+                        placeholder="Describe your projects"
+                    ></textarea>
+
+                </div>
+
+
+                <!-- ACHIEVEMENTS & CERTIFICATES -->
+
+                <div class="form-group">
+
+                    <label for="achievements">
+                        Achievements & Certificates
+                    </label>
+
+                    <textarea
+                        id="achievements"
+                        placeholder="Example: First Prize in Debate Competition, SoloLearn C Programming Certificate, SkillRack Array Certificate"
+                    ></textarea>
+
+                </div>
+
+
+                <!-- LINKEDIN -->
+
+                <div class="form-group">
+
+                    <label for="linkedin">
+                        LinkedIn URL
+                    </label>
+
+                    <input
+                        type="url"
+                        id="linkedin"
+                        placeholder="https://linkedin.com/in/yourname"
+                    >
+
+                </div>
+
+
+                <!-- GITHUB -->
+
+                <div class="form-group">
+
+                    <label for="github">
+                        GitHub URL
+                    </label>
+
+                    <input
+                        type="url"
+                        id="github"
+                        placeholder="https://github.com/yourusername"
+                    >
+
+                </div>
+
+
+                <!-- SUBMIT -->
+
+                <button
+                    type="submit"
+                    class="primary-btn form-btn"
+                >
                     Generate My Profile →
                 </button>
+
 
             </form>
 
@@ -129,7 +302,13 @@
 
     </section>
 
+
+    <!-- JAVASCRIPT -->
+     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
     <script src="script.js"></script>
 
 </body>
+
 </html>
