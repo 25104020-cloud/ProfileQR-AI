@@ -14,6 +14,7 @@
 
     <!-- Navigation -->
     <nav class="navbar">
+
         <a href="index.html" class="logo">
             Profile<span>QR</span> AI
         </a>
@@ -21,79 +22,185 @@
         <a href="create-profile.html" class="back-link">
             ← Edit Profile
         </a>
+
     </nav>
 
 
-    <!-- Profile Section -->
+    <!-- Digital Profile -->
     <section class="digital-profile">
 
         <div class="profile-card">
 
+
+            <!-- Profile Photo -->
             <div class="profile-avatar" id="profileAvatar">
                 👤
             </div>
 
-            <h1 id="displayName">Your Name</h1>
 
+            <!-- Name -->
+            <h1 id="displayName">
+                Your Name
+            </h1>
+
+
+            <!-- Professional Title -->
             <p class="profile-title" id="displayTitle">
                 Your Professional Title
             </p>
 
-            <div class="profile-section">
-    <h2>About Me</h2>
-    <p id="displayBio"></p>
-</div>
 
+            <!-- About Me -->
             <div class="profile-section">
-                <h2>About / Education</h2>
-                <p id="displayEducation"></p>
+
+                <h2>
+                    About Me
+                </h2>
+
+                <p id="displayBio">
+                    No bio added yet.
+                </p>
+
             </div>
 
+
+            <!-- Education -->
             <div class="profile-section">
-                <h2>Skills</h2>
-                <div class="skills-list" id="displaySkills"></div>
+
+                <h2>
+                    Education
+                </h2>
+
+                <p id="displayEducation">
+                    No education information added.
+                </p>
+
             </div>
 
-            <div class="profile-section">
-                <h2>Projects</h2>
-                <p id="displayProjects"></p>
-            </div>
-            <div class="profile-section">
-    <h2>Achievements & Certificates 🏆</h2>
-    <p id="displayAchievements"></p>
-</div>
 
+            <!-- Skills -->
+            <div class="profile-section">
+
+                <h2>
+                    Skills
+                </h2>
+
+                <div
+                    class="skills-list"
+                    id="displaySkills">
+                </div>
+
+            </div>
+
+
+            <!-- Projects -->
+            <div class="profile-section">
+
+                <h2>
+                    Projects
+                </h2>
+
+                <p id="displayProjects">
+                    No projects added.
+                </p>
+
+            </div>
+
+
+            <!-- Achievements -->
+            <div class="profile-section">
+
+                <h2>
+                    Achievements & Certificates 🏆
+                </h2>
+
+                <p id="displayAchievements">
+                    No achievements or certificates added yet.
+                </p>
+
+            </div>
+
+
+            <!-- Contact -->
             <div class="profile-section contact-section">
-                <h2>Contact</h2>
+
+                <h2>
+                    Contact
+                </h2>
 
                 <p id="displayEmail"></p>
+
                 <p id="displayPhone"></p>
+
             </div>
-            <!-- QR Code Section -->
-<div class="qr-section">
-    <h2>Scan My Profile</h2>
-    <div id="qrcode"></div>
-    <p>Scan this QR code to access my digital profile.</p>
-    <button id="downloadQR" class="download-btn">
-    Download My QR Code
-</button>
-</div>
 
+
+            <!-- QR Code -->
+            <div class="qr-section">
+
+                <h2>
+                    Scan My Profile
+                </h2>
+
+                <div id="qrcode"></div>
+
+                <p>
+                    Scan this QR code to access my digital profile.
+                </p>
+
+                <button
+                    id="downloadQR"
+                    class="download-btn">
+                    Download My QR Code
+                </button>
+
+            </div>
+
+
+            <!-- Social Links -->
             <div class="profile-links">
-    <a id="linkedinLink" href="#" target="_blank">LinkedIn</a>
 
-    <a id="githubLink" href="#" target="_blank">GitHub</a>
+                <a
+                    id="linkedinLink"
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    LinkedIn
+                </a>
 
-    <a id="resumeLink" href="#" target="_blank" style="display: none;">
-        View Resume
-    </a>
-</div>
+                <a
+                    id="githubLink"
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    GitHub
+                </a>
+
+                <a
+                    id="resumeLink"
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style="display: none;">
+                    View Resume
+                </a>
+
+            </div>
+
+
         </div>
 
     </section>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
+
+    <!-- QR CODE LIBRARY -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+    <!-- OUR SCRIPT -->
     <script src="script.js"></script>
 
 </body>
+
 </html>
