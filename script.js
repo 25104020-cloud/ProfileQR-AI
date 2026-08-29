@@ -1,109 +1,295 @@
-// ========================================
-// PROFILEQR AI - FINAL SCRIPT
-// ========================================
+// =====================================================
+// PROFILEQR AI — FINAL SCRIPT
+// Firebase + QR + Profile + AI Bio
+// =====================================================
 
 
-// ========================================
-// CREATE PROFILE
-// ========================================
+// =====================================================
+// 1. FIREBASE CONFIGURATION
+// =====================================================
 
-const profileForm = document.getElementById("profileForm");
+const firebaseConfig = {
+    apiKey: "AIzaSyB10mhI6HjKDqDUezDaV0WMjohwu7P491U",
+    authDomain: "profileqr-ai.firebaseapp.com",
+    databaseURL: "https://profileqr-ai-default-rtdb.firebaseio.com",
+    projectId: "profileqr-ai",
+    storageBucket: "profileqr-ai.firebasestorage.app",
+    messagingSenderId: "978918324164",
+    appId: "1:978918324164:web:513508e496731fec961691",
+    measurementId: "G-F8PJXP5N7L"
+};
+
+
+// Start Firebase
+if (typeof firebase !== "undefined") {
+
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+
+}
+
+const database =
+    typeof firebase !== "undefined"
+        ? firebase.database()
+        : null;
+
+
+// =====================================================
+// 2. CREATE PROFILE
+// =====================================================
+
+const profileForm =
+    document.getElementById("profileForm");
+
 
 if (profileForm) {
 
-    profileForm.addEventListener("submit", function (event) {
+    profileForm.addEventListener("submit", async function (event) {
 
         event.preventDefault();
+
+
+        // Get form values
+        const fullName =
+            document.getElementById("fullName").value.trim();
+
+        const title =
+            document.getElementById("title").value.trim();
+
+        const bio =
+            document.getElementById("bio").value.trim();
+
+        const email =
+            document.getElementById("email").value.trim();
+
+        const phone =
+            document.getElementById("phone").value.trim();
+
+        const education =
+            document.getElementById("education").value.trim();
+
+        const skills =
+            document.getElementById("skills").value.trim();
+
+        const projects =
+            document.getElementById("projects").value.trim();
+
+        const achievementsElement =
+            document.getElementById("achievements");
+
+        const achievements =
+            achievementsElement
+                ? achievementsElement.value.trim()
+                : "";
+
+        const linkedin =
+            document.getElementById("linkedin").value.trim();
+
+        const github =
+            document.getElementById("github").value.trim();
+
+
+        // -------------------------------------------------
+        // Profile photo
+        // -------------------------------------------------
 
         const photoInput =
             document.getElementById("profilePhoto");
 
         const photoFile =
-            photoInput ? photoInput.files[0] : null;
+            photoInput && photoInput.files.length > 0
+                ? photoInput.files[0]
+                : null;
 
 
-        // Save profile
-        function saveProfile(photoData) {
+        // -------------------------------------------------
+        // Resume
+        // -------------------------------------------------
 
-            const profileData = {
+        const resumeInput =
+            document.getElementById("resume");
 
-                fullName:
-                    document.getElementById("fullName").value,
-
-                title:
-                    document.getElementById("title").value,
-
-                bio:
-                    document.getElementById("bio").value,
-
-                email:
-                    document.getElementById("email").value,
-
-                phone:
-                    document.getElementById("phone").value,
-
-                education:
-                    document.getElementById("education").value,
-
-                skills:
-                    document.getElementById("skills").value,
-
-                projects:
-                    document.getElementById("projects").value,
-
-                achievements:
-                    document.getElementById("achievements")
-                        ? document.getElementById("achievements").value
-                        : "",
-
-                linkedin:
-                    document.getElementById("linkedin").value,
-
-                github:
-                    document.getElementById("github").value,
-
-                photo: photoData,
-
-                // Resume is intentionally not stored in localStorage
-                resume: ""
-            };
+        const resumeFile =
+            resumeInput && resumeInput.files.length > 0
+                ? resumeInput.files[0]
+                : null;
 
 
-            try {
+        // -------------------------------------------------
+        // Basic validation
+        // -------------------------------------------------
 
-                localStorage.setItem(
-                    "profileData",
-                    JSON.stringify(profileData)
-                );
+        if (!fullName) {
 
-                window.location.href = "profile.html";
+            alert("Please enter your full name.");
 
-            } catch (error) {
-
-                alert(
-                    "Profile could not be saved. Please use a smaller profile photo."
-                );
-
-                console.error(error);
-            }
+            return;
         }
 
 
-        // Read profile photo
-        if (photoFile) {
+        if (!database) {
 
-            const reader = new FileReader();
+            alert(
+                "Firebase could not be loaded. Please check your internet connection."
+            );
 
-            reader.onload = function (e) {
+            return;
+        }
 
-                saveProfile(e.target.result);
+
+        // -------------------------------------------------
+        // Show saving message
+        // -------------------------------------------------
+
+        const submitButton =
+            profileForm.querySelector(
+                'button[type="submit"]'
+            );
+
+        if (submitButton) {
+
+            submitButton.disabled = true;
+
+            submitButton.textContent =
+                "Saving Profile...";
+        }
+
+
+        try {
+
+            // -------------------------------------------------
+            // Convert photo to Base64
+            // -------------------------------------------------
+
+            let photoData = "";
+
+            if (photoFile) {
+
+                photoData =
+                    await fileToBase64(photoFile);
+            }
+
+
+            // -------------------------------------------------
+            // Convert resume to Base64
+            // -------------------------------------------------
+
+            let resumeData = "";
+
+            if (resumeFile) {
+
+                // Limit resume size
+                if (resumeFile.size > 3 * 1024 * 1024) {
+
+                    alert(
+                        "Resume is too large. Please use a PDF smaller than 3 MB."
+                    );
+
+                    if (submitButton) {
+
+                        submitButton.disabled = false;
+
+                        submitButton.textContent =
+                            "Generate My Profile →";
+                    }
+
+                    return;
+                }
+
+                resumeData =
+                    await fileToBase64(resumeFile);
+            }
+
+
+            // -------------------------------------------------
+            // Create Firebase unique profile ID
+            // -------------------------------------------------
+
+            const profileReference =
+                database.ref("profiles").push();
+
+            const profileId =
+                profileReference.key;
+
+
+            // -------------------------------------------------
+            // Profile object
+            // -------------------------------------------------
+
+            const profileData = {
+
+                fullName: fullName,
+
+                title: title,
+
+                bio: bio,
+
+                email: email,
+
+                phone: phone,
+
+                education: education,
+
+                skills: skills,
+
+                projects: projects,
+
+                achievements: achievements,
+
+                linkedin: linkedin,
+
+                github: github,
+
+                photo: photoData,
+
+                resume: resumeData,
+
+                createdAt:
+                    new Date().toISOString()
             };
 
-            reader.readAsDataURL(photoFile);
 
-        } else {
+            // -------------------------------------------------
+            // Save profile to Firebase
+            // -------------------------------------------------
 
-            saveProfile("");
+            await profileReference.set(
+                profileData
+            );
+
+
+            // -------------------------------------------------
+            // Open profile page
+            // -------------------------------------------------
+
+            window.location.href =
+                "profile.html?id=" +
+                encodeURIComponent(profileId);
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Profile saving error:",
+                error
+            );
+
+            alert(
+                "Something went wrong while saving your profile.\n\n" +
+                error.message
+            );
+
+
+            if (submitButton) {
+
+                submitButton.disabled = false;
+
+                submitButton.textContent =
+                    "Generate My Profile →";
+            }
+
         }
 
     });
@@ -111,95 +297,182 @@ if (profileForm) {
 }
 
 
-// ========================================
-// GET PROFILE DATA
-// ========================================
+// =====================================================
+// 3. FILE → BASE64
+// =====================================================
 
-const urlParams = new URLSearchParams(
-    window.location.search
-);
+function fileToBase64(file) {
 
-const qrData = urlParams.get("data");
+    return new Promise(function (resolve, reject) {
 
-let savedData = null;
+        const reader =
+            new FileReader();
+
+        reader.onload = function () {
+
+            resolve(
+                reader.result
+            );
+
+        };
+
+        reader.onerror = function () {
+
+            reject(
+                new Error(
+                    "Could not read the selected file."
+                )
+            );
+
+        };
+
+        reader.readAsDataURL(file);
+
+    });
+
+}
 
 
-// First try QR data
-if (qrData) {
+// =====================================================
+// 4. LOAD PROFILE
+// =====================================================
+
+const urlParams =
+    new URLSearchParams(
+        window.location.search
+    );
+
+const profileId =
+    urlParams.get("id");
+
+
+if (
+    profileId &&
+    document.getElementById("displayName") &&
+    database
+) {
+
+    loadProfile(profileId);
+
+}
+
+
+// =====================================================
+// 5. LOAD PROFILE FROM FIREBASE
+// =====================================================
+
+async function loadProfile(id) {
 
     try {
 
-        const decodedProfile =
-            JSON.parse(qrData);
+        const snapshot =
+            await database
+                .ref("profiles/" + id)
+                .once("value");
 
-        savedData =
-            JSON.stringify(decodedProfile);
 
-    } catch (error) {
+        if (!snapshot.exists()) {
 
-        console.error("Invalid QR profile data");
+            showProfileError();
+
+            return;
+        }
+
+
+        const profileData =
+            snapshot.val();
+
+
+        displayProfile(
+            profileData,
+            id
+        );
 
     }
+
+    catch (error) {
+
+        console.error(
+            "Profile loading error:",
+            error
+        );
+
+        showProfileError();
+
+    }
+
 }
 
 
-// If no QR data, use browser storage
-if (!savedData) {
+// =====================================================
+// 6. DISPLAY PROFILE
+// =====================================================
 
-    savedData =
-        localStorage.getItem("profileData");
-}
-
-
-// ========================================
-// DISPLAY PROFILE
-// ========================================
-
-if (
-    savedData &&
-    window.location.pathname.includes("profile.html")
+function displayProfile(
+    profileData,
+    id
 ) {
 
-    const profileData =
-        JSON.parse(savedData);
 
+    // -------------------------------------------------
+    // Name
+    // -------------------------------------------------
 
-    // NAME
     const displayName =
-        document.getElementById("displayName");
+        document.getElementById(
+            "displayName"
+        );
 
     if (displayName) {
 
         displayName.textContent =
-            profileData.fullName || "Your Name";
+            profileData.fullName ||
+            "Your Name";
     }
 
 
-    // TITLE
+    // -------------------------------------------------
+    // Title
+    // -------------------------------------------------
+
     const displayTitle =
-        document.getElementById("displayTitle");
+        document.getElementById(
+            "displayTitle"
+        );
 
     if (displayTitle) {
 
         displayTitle.textContent =
-            profileData.title || "Professional";
+            profileData.title ||
+            "Professional";
     }
 
 
-    // BIO
+    // -------------------------------------------------
+    // Bio
+    // -------------------------------------------------
+
     const displayBio =
-        document.getElementById("displayBio");
+        document.getElementById(
+            "displayBio"
+        );
 
     if (displayBio) {
 
         displayBio.textContent =
-            profileData.bio || "No bio added yet.";
+            profileData.bio ||
+            "No bio added yet.";
     }
 
 
-    // EDUCATION
+    // -------------------------------------------------
+    // Education
+    // -------------------------------------------------
+
     const displayEducation =
-        document.getElementById("displayEducation");
+        document.getElementById(
+            "displayEducation"
+        );
 
     if (displayEducation) {
 
@@ -209,9 +482,14 @@ if (
     }
 
 
-    // PROJECTS
+    // -------------------------------------------------
+    // Projects
+    // -------------------------------------------------
+
     const displayProjects =
-        document.getElementById("displayProjects");
+        document.getElementById(
+            "displayProjects"
+        );
 
     if (displayProjects) {
 
@@ -221,9 +499,14 @@ if (
     }
 
 
-    // ACHIEVEMENTS
+    // -------------------------------------------------
+    // Achievements
+    // -------------------------------------------------
+
     const displayAchievements =
-        document.getElementById("displayAchievements");
+        document.getElementById(
+            "displayAchievements"
+        );
 
     if (displayAchievements) {
 
@@ -233,38 +516,77 @@ if (
     }
 
 
-    // EMAIL
+    // -------------------------------------------------
+    // Email
+    // -------------------------------------------------
+
     const displayEmail =
-        document.getElementById("displayEmail");
+        document.getElementById(
+            "displayEmail"
+        );
 
     if (displayEmail) {
 
-        displayEmail.textContent =
-            profileData.email || "";
+        if (profileData.email) {
+
+            displayEmail.innerHTML =
+                "📧 <a href=\"mailto:" +
+                escapeAttribute(profileData.email) +
+                "\" style=\"color:#38bdf8;\">" +
+                escapeHTML(profileData.email) +
+                "</a>";
+
+        } else {
+
+            displayEmail.textContent =
+                "";
+        }
+
     }
 
 
-    // PHONE
+    // -------------------------------------------------
+    // Phone
+    // -------------------------------------------------
+
     const displayPhone =
-        document.getElementById("displayPhone");
+        document.getElementById(
+            "displayPhone"
+        );
 
     if (displayPhone) {
 
-        displayPhone.textContent =
-            profileData.phone || "";
+        if (profileData.phone) {
+
+            displayPhone.innerHTML =
+                "📱 <a href=\"tel:" +
+                escapeAttribute(profileData.phone) +
+                "\" style=\"color:#38bdf8;\">" +
+                escapeHTML(profileData.phone) +
+                "</a>";
+
+        } else {
+
+            displayPhone.textContent =
+                "";
+        }
+
     }
 
 
-    // ========================================
+    // =================================================
     // PROFILE PHOTO
-    // ========================================
+    // =================================================
 
-    if (profileData.photo) {
+    const avatar =
+        document.getElementById(
+            "profileAvatar"
+        );
 
-        const avatar =
-            document.getElementById("profileAvatar");
 
-        if (avatar) {
+    if (avatar) {
+
+        if (profileData.photo) {
 
             avatar.innerHTML = "";
 
@@ -274,234 +596,416 @@ if (
             image.src =
                 profileData.photo;
 
-            image.style.width = "100%";
-            image.style.height = "100%";
-            image.style.objectFit = "cover";
-            image.style.borderRadius = "50%";
+            image.alt =
+                profileData.fullName ||
+                "Profile Photo";
 
-            avatar.appendChild(image);
+            image.style.width =
+                "100%";
+
+            image.style.height =
+                "100%";
+
+            image.style.objectFit =
+                "cover";
+
+            image.style.borderRadius =
+                "50%";
+
+            avatar.appendChild(
+                image
+            );
+
+        } else {
+
+            avatar.innerHTML =
+                "👤";
         }
 
     }
 
 
-    // ========================================
+    // =================================================
     // SKILLS
-    // ========================================
+    // =================================================
 
     const skillsContainer =
-        document.getElementById("displaySkills");
+        document.getElementById(
+            "displaySkills"
+        );
 
-    if (
-        skillsContainer &&
-        profileData.skills
-    ) {
+
+    if (skillsContainer) {
 
         skillsContainer.innerHTML = "";
 
-        const skillsArray =
-            profileData.skills.split(",");
 
-        skillsArray.forEach(function (skill) {
+        if (profileData.skills) {
 
-            const skillTag =
-                document.createElement("span");
+            const skillsArray =
+                profileData.skills
+                    .split(",");
 
-            skillTag.textContent =
-                skill.trim();
 
-            skillTag.classList.add(
-                "skill-tag"
+            skillsArray.forEach(
+                function (skill) {
+
+                    const cleanSkill =
+                        skill.trim();
+
+
+                    if (!cleanSkill) return;
+
+
+                    const skillTag =
+                        document.createElement(
+                            "span"
+                        );
+
+
+                    skillTag.className =
+                        "skill-tag";
+
+
+                    skillTag.textContent =
+                        cleanSkill;
+
+
+                    skillsContainer.appendChild(
+                        skillTag
+                    );
+
+                }
             );
 
-            skillsContainer.appendChild(
-                skillTag
-            );
-
-        });
+        }
 
     }
 
 
-    // ========================================
+    // =================================================
     // LINKEDIN
-    // ========================================
+    // =================================================
 
     const linkedinLink =
-        document.getElementById("linkedinLink");
+        document.getElementById(
+            "linkedinLink"
+        );
 
-    if (
-        linkedinLink &&
-        profileData.linkedin
-    ) {
 
-        linkedinLink.href =
-            profileData.linkedin;
+    if (linkedinLink) {
+
+        if (profileData.linkedin) {
+
+            linkedinLink.href =
+                makeSafeURL(
+                    profileData.linkedin
+                );
+
+            linkedinLink.target =
+                "_blank";
+
+            linkedinLink.rel =
+                "noopener noreferrer";
+
+            linkedinLink.style.display =
+                "block";
+
+        } else {
+
+            linkedinLink.style.display =
+                "none";
+        }
+
     }
 
 
-    // ========================================
+    // =================================================
     // GITHUB
-    // ========================================
+    // =================================================
 
     const githubLink =
-        document.getElementById("githubLink");
+        document.getElementById(
+            "githubLink"
+        );
 
-    if (
-        githubLink &&
-        profileData.github
-    ) {
 
-        githubLink.href =
-            profileData.github;
+    if (githubLink) {
+
+        if (profileData.github) {
+
+            githubLink.href =
+                makeSafeURL(
+                    profileData.github
+                );
+
+            githubLink.target =
+                "_blank";
+
+            githubLink.rel =
+                "noopener noreferrer";
+
+            githubLink.style.display =
+                "block";
+
+        } else {
+
+            githubLink.style.display =
+                "none";
+        }
+
+    }
+
+
+    // =================================================
+    // RESUME
+    // =================================================
+
+    const resumeLink =
+        document.getElementById(
+            "resumeLink"
+        );
+
+
+    if (resumeLink) {
+
+        if (profileData.resume) {
+
+            resumeLink.href =
+                profileData.resume;
+
+            resumeLink.target =
+                "_blank";
+
+            resumeLink.rel =
+                "noopener noreferrer";
+
+            resumeLink.textContent =
+                "📄 View Resume";
+
+            resumeLink.style.display =
+                "block";
+
+        } else {
+
+            resumeLink.style.display =
+                "none";
+        }
+
     }
 
 
-    // ========================================
-    // GENERATE SHAREABLE PROFILE QR
-    // ========================================
+    // =================================================
+    // GENERATE PERSONAL QR
+    // =================================================
 
-    const qrContainer =
-        document.getElementById("qrcode");
-
-    if (
-        qrContainer &&
-        typeof QRCode !== "undefined"
-    ) {
-
-        const shareData = {
-
-            fullName:
-                profileData.fullName || "",
-
-            title:
-                profileData.title || "",
-
-            bio:
-                profileData.bio || "",
-
-            email:
-                profileData.email || "",
-
-            phone:
-                profileData.phone || "",
-
-            education:
-                profileData.education || "",
-
-            skills:
-                profileData.skills || "",
-
-            projects:
-                profileData.projects || "",
-
-            achievements:
-                profileData.achievements || "",
-
-            linkedin:
-                profileData.linkedin || "",
-
-            github:
-                profileData.github || ""
-        };
-
-
-        const encodedData =
-            encodeURIComponent(
-                JSON.stringify(shareData)
-            );
-
-
-        const shareURL =
-            "https://25104020-cloud.github.io/ProfileQR-AI/profile.html?data="
-            + encodedData;
-
-
-        qrContainer.innerHTML = "";
-
-
-        new QRCode(qrContainer, {
-
-            text: shareURL,
-
-            width: 180,
-
-            height: 180
-
-        });
-
-    }
+    generateProfileQR(id);
 
 }
 
 
-// ========================================
-// DOWNLOAD PROFILE QR
-// ========================================
+// =====================================================
+// 7. GENERATE PROFILE QR
+// =====================================================
 
-const downloadButton =
-    document.getElementById("downloadQR");
+function generateProfileQR(id) {
 
-if (downloadButton) {
+    const qrContainer =
+        document.getElementById(
+            "qrcode"
+        );
 
-    downloadButton.addEventListener(
-        "click",
+
+    if (
+        !qrContainer ||
+        typeof QRCode === "undefined"
+    ) {
+
+        return;
+    }
+
+
+    // Get current website URL
+    const currentURL =
+        window.location.href
+            .split("?")[0];
+
+
+    // Create short profile URL
+    const profileURL =
+        currentURL +
+        "?id=" +
+        encodeURIComponent(id);
+
+
+    // Clear previous QR
+    qrContainer.innerHTML =
+        "";
+
+
+    // Generate QR
+    new QRCode(
+        qrContainer,
+        {
+
+            text: profileURL,
+
+            width: 300,
+
+            height: 300,
+
+            correctLevel:
+                QRCode.CorrectLevel.M
+
+        }
+    );
+
+
+    // Display URL for testing
+    const qrDescription =
+        document.querySelector(
+            ".qr-section p"
+        );
+
+
+    if (qrDescription) {
+
+        qrDescription.textContent =
+            "Scan this QR code with your phone to open this profile.";
+
+    }
+
+
+    // Download button
+    setupQRDownload();
+
+}
+
+
+// =====================================================
+// 8. DOWNLOAD QR
+// =====================================================
+
+function setupQRDownload() {
+
+    const downloadButton =
+        document.getElementById(
+            "downloadQR"
+        );
+
+
+    if (!downloadButton) return;
+
+
+    downloadButton.onclick =
         function () {
+
+
+            const qrCanvas =
+                document.querySelector(
+                    "#qrcode canvas"
+                );
+
 
             const qrImage =
                 document.querySelector(
                     "#qrcode img"
                 );
 
-            if (qrImage) {
 
-                const link =
-                    document.createElement("a");
+            let imageURL =
+                "";
 
-                link.href =
+
+            if (qrCanvas) {
+
+                imageURL =
+                    qrCanvas.toDataURL(
+                        "image/png"
+                    );
+
+            }
+
+            else if (qrImage) {
+
+                imageURL =
                     qrImage.src;
 
-                link.download =
-                    "ProfileQR-AI-QR.png";
+            }
 
-                link.click();
 
-            } else {
+            if (!imageURL) {
 
                 alert(
                     "QR code is not ready yet."
                 );
+
+                return;
             }
 
-        }
-    );
+
+            const link =
+                document.createElement(
+                    "a"
+                );
+
+
+            link.href =
+                imageURL;
+
+
+            link.download =
+                "ProfileQR-AI-QR.png";
+
+
+            document.body.appendChild(
+                link
+            );
+
+
+            link.click();
+
+
+            document.body.removeChild(
+                link
+            );
+
+        };
 
 }
 
 
-// ========================================
-// AI BIO GENERATOR
-// ========================================
+// =====================================================
+// 9. AI BIO GENERATOR
+// =====================================================
 
 function testBio() {
 
     const bioInput =
-        document.getElementById("bio");
+        document.getElementById(
+            "bio"
+        );
+
 
     if (!bioInput) return;
 
 
-    const userText =
-        bioInput.value.trim();
-
     const fullNameInput =
-        document.getElementById("fullName");
+        document.getElementById(
+            "fullName"
+        );
+
 
     const titleInput =
-        document.getElementById("title");
+        document.getElementById(
+            "title"
+        );
+
 
     const skillsInput =
-        document.getElementById("skills");
+        document.getElementById(
+            "skills"
+        );
 
 
     const fullName =
@@ -509,10 +1013,12 @@ function testBio() {
             ? fullNameInput.value.trim()
             : "";
 
+
     const title =
         titleInput
             ? titleInput.value.trim()
             : "";
+
 
     const skills =
         skillsInput
@@ -520,17 +1026,25 @@ function testBio() {
             : "";
 
 
-    if (userText === "") {
+    // The user's description
+    const userText =
+        bioInput.value.trim();
+
+
+    if (!userText) {
 
         alert(
-            "Please write a few details about yourself first!"
+            "Please write a few details about yourself first."
         );
+
+        bioInput.focus();
 
         return;
     }
 
 
-    let professionalBio = "";
+    let professionalBio =
+        "";
 
 
     if (fullName) {
@@ -548,12 +1062,14 @@ function testBio() {
     if (title) {
 
         professionalBio +=
-            "a " + title + " ";
+            "a " +
+            title +
+            " ";
 
     } else {
 
         professionalBio +=
-            "a motivated and enthusiastic individual ";
+            "a motivated and enthusiastic professional ";
     }
 
 
@@ -573,37 +1089,170 @@ function testBio() {
 
 
     professionalBio +=
-        "Passionate about continuous learning, innovation, and building meaningful solutions.";
+        "Passionate about continuous learning, innovation, problem-solving, and building meaningful digital solutions.";
 
 
     bioInput.value =
         professionalBio;
+
 }
 
 
-// ========================================
-// HOMEPAGE DEMO QR CODE
-// ========================================
+// =====================================================
+// 10. HOMEPAGE QR
+// =====================================================
 
 const homeQR =
-    document.getElementById("homeQRCode");
+    document.getElementById(
+        "homeQRCode"
+    );
+
 
 if (
     homeQR &&
     typeof QRCode !== "undefined"
 ) {
 
-    homeQR.innerHTML = "";
+    homeQR.innerHTML =
+        "";
 
-    new QRCode(homeQR, {
 
-        text:
-            "https://25104020-cloud.github.io/ProfileQR-AI/",
+    // Homepage URL
+    const homeURL =
+        window.location.origin +
+        window.location.pathname
+            .replace(
+                "index.html",
+                ""
+            );
 
-        width: 160,
 
-        height: 160
+    new QRCode(
+        homeQR,
+        {
 
-    });
+            text:
+                homeURL,
+
+            width:
+                180,
+
+            height:
+                180,
+
+            correctLevel:
+                QRCode.CorrectLevel.M
+
+        }
+    );
+
+}
+
+
+// =====================================================
+// 11. SECURITY HELPERS
+// =====================================================
+
+function escapeHTML(value) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+    div.textContent =
+        value || "";
+
+    return div.innerHTML;
+}
+
+
+function escapeAttribute(value) {
+
+    return String(value || "")
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        );
+}
+
+
+function makeSafeURL(url) {
+
+    try {
+
+        const parsedURL =
+            new URL(
+                url,
+                window.location.origin
+            );
+
+
+        if (
+            parsedURL.protocol === "http:" ||
+            parsedURL.protocol === "https:"
+        ) {
+
+            return parsedURL.href;
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Invalid URL:",
+            error
+        );
+
+    }
+
+
+    return "#";
+
+}
+
+
+// =====================================================
+// 12. PROFILE ERROR
+// =====================================================
+
+function showProfileError() {
+
+    const name =
+        document.getElementById(
+            "displayName"
+        );
+
+
+    if (name) {
+
+        name.textContent =
+            "Profile Not Found";
+    }
+
+
+    const title =
+        document.getElementById(
+            "displayTitle"
+        );
+
+
+    if (title) {
+
+        title.textContent =
+            "This profile may have been removed or the QR code is invalid.";
+    }
 
 }
