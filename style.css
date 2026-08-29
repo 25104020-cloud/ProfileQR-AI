@@ -516,3 +516,74 @@ body {
 #displayAchievements {
     line-height: 1.8;
 }
+
+/* =========================
+   REAL QR CODE STYLING
+========================= */
+
+#homeQRCode {
+    width: 170px;
+    height: 170px;
+    margin: 0 auto;
+    background: white;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+#homeQRCode img {
+    width: 160px;
+    height: 160px;
+    display: block;
+}
+
+#qrcode {
+    width: 300px;
+    min-height: 300px;
+    margin: 20px auto;
+    background: white;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+#qrcode img {
+    width: 280px;
+    height: 280px;
+    display: block;
+}
+
+.qr-section {
+    text-align: center;
+    padding: 30px 0;
+    border-top: 1px solid #334155;
+}
+
+.qr-section h2 {
+    color: #38bdf8;
+    margin-bottom: 15px;
+}
+
+.qr-section p {
+    color: #94a3b8;
+    line-height: 1.6;
+}
+
+.download-btn {
+    margin-top: 15px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #38bdf8;
+    color: #0b1120;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.download-btn:hover {
+    transform: translateY(-2px);
+}
