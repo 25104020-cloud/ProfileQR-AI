@@ -355,20 +355,27 @@ if (
     loadProfile(profileId);
 
     // Record profile view
+database
+    .ref("analytics/" + profileId + "/profileViews")
+    .transaction(function (currentValue) {
+        return (currentValue || 0) + 1;
+    });
+
+// Record QR scan only when source=qr
+const source = urlParams.get("source");
+
+if (source === "qr") {
     database
-        .ref("analytics/" + profileId + "/profileViews")
+        .ref("analytics/" + profileId + "/qrScans")
         .transaction(function (currentValue) {
-
             return (currentValue || 0) + 1;
-
         });
-
-    // Record last viewed time
-    database
-        .ref("analytics/" + profileId + "/lastViewed")
-        .set(new Date().toISOString());
-
 }
+
+// Record last viewed time
+database
+    .ref("analytics/" + profileId + "/lastViewed")
+    .set(new Date().toISOString());
 
 
 // =====================================================
