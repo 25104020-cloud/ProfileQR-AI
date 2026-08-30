@@ -1291,3 +1291,105 @@ function showProfileError() {
 
 }
 
+// =====================================================
+// TEST FIREBASE AUTHENTICATION
+// =====================================================
+
+if (auth) {
+
+    auth.onAuthStateChanged(function (user) {
+
+        if (user) {
+
+            console.log(
+                "Firebase Authentication working:",
+                user.email
+            );
+
+        } else {
+
+            console.log(
+                "No user is currently signed in."
+            );
+
+        }
+
+    });
+
+}
+// =====================================================
+// 13. LOGIN
+// =====================================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const loginButton =
+        document.getElementById("loginButton");
+
+    if (!loginButton || !auth) {
+        console.error("Login setup failed:", {
+            loginButton: loginButton,
+            auth: auth
+        });
+        return;
+    }
+
+    loginButton.addEventListener("click", async function () {
+
+        const emailInput =
+            document.getElementById("loginEmail");
+
+        const passwordInput =
+            document.getElementById("loginPassword");
+
+        const message =
+            document.getElementById("loginMessage");
+
+        const email =
+            emailInput.value.trim();
+
+        const password =
+            passwordInput.value;
+
+        if (!email || !password) {
+
+            message.textContent =
+                "Please enter email and password.";
+
+            return;
+        }
+
+        try {
+
+            message.textContent =
+                "Logging in...";
+
+            await auth.signInWithEmailAndPassword(
+                email,
+                password
+            );
+
+            message.textContent =
+                "Login successful!";
+
+            window.location.href =
+                "index.html";
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Login error:",
+                error
+            );
+
+            message.textContent =
+                "Login failed: " +
+                error.message;
+
+        }
+
+    });
+
+});
