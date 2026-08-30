@@ -1321,20 +1321,18 @@ if (auth) {
 // 13. LOGIN
 // =====================================================
 
-document.addEventListener("DOMContentLoaded", function () {
+const loginButton =
+    document.getElementById("loginButton");
 
-    const loginButton =
-        document.getElementById("loginButton");
+console.log("LOGIN SECTION LOADED");
+console.log("loginButton:", loginButton);
+console.log("auth:", auth);
 
-    if (!loginButton || !auth) {
-        console.error("Login setup failed:", {
-            loginButton: loginButton,
-            auth: auth
-        });
-        return;
-    }
+if (loginButton && auth) {
 
     loginButton.addEventListener("click", async function () {
+
+        console.log("LOGIN BUTTON CLICKED");
 
         const emailInput =
             document.getElementById("loginEmail");
@@ -1375,9 +1373,7 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href =
                 "index.html";
 
-        }
-
-        catch (error) {
+        } catch (error) {
 
             console.error(
                 "Login error:",
@@ -1387,9 +1383,16 @@ document.addEventListener("DOMContentLoaded", function () {
             message.textContent =
                 "Login failed: " +
                 error.message;
-
         }
 
     });
 
-});
+} else {
+
+    console.error(
+        "LOGIN SETUP FAILED",
+        loginButton,
+        auth
+    );
+
+}
