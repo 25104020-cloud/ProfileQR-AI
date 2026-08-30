@@ -337,15 +337,6 @@ function fileToBase64(file) {
 // 4. LOAD PROFILE
 // =====================================================
 
-const urlParams =
-    new URLSearchParams(
-        window.location.search
-    );
-
-const profileId =
-    urlParams.get("id");
-
-
 if (
     profileId &&
     document.getElementById("displayName") &&
@@ -355,27 +346,32 @@ if (
     loadProfile(profileId);
 
     // Record profile view
-database
-    .ref("analytics/" + profileId + "/profileViews")
-    .transaction(function (currentValue) {
-        return (currentValue || 0) + 1;
-    });
+    database
+        .ref("analytics/" + profileId + "/profileViews")
+        .transaction(function (currentValue) {
 
-// Record QR scan only when source=qr
+            return (currentValue || 0) + 1;
+
+        });
+        // Record QR scan
 const source = urlParams.get("source");
 
 if (source === "qr") {
     database
         .ref("analytics/" + profileId + "/qrScans")
         .transaction(function (currentValue) {
+
             return (currentValue || 0) + 1;
+
         });
 }
 
-// Record last viewed time
-database
-    .ref("analytics/" + profileId + "/lastViewed")
-    .set(new Date().toISOString());
+    // Record last viewed time
+    database
+        .ref("analytics/" + profileId + "/lastViewed")
+        .set(new Date().toISOString());
+
+}
 
 
 // =====================================================
@@ -854,9 +850,10 @@ function generateProfileQR(id) {
 
     // Create short profile URL
     const profileURL =
-        currentURL +
-        "?id=" +
-        encodeURIComponent(id);
+    currentURL +
+    "?id=" +
+    encodeURIComponent(id) +
+    "&source=qr";
 
 
     // Clear previous QR
@@ -1277,3 +1274,4 @@ function showProfileError() {
     }
 
 }
+
