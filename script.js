@@ -33,6 +33,10 @@ const database =
     typeof firebase !== "undefined"
         ? firebase.database()
         : null;
+const auth =
+    typeof firebase !== "undefined"
+        ? firebase.auth()
+        : null;
 
 
 // =====================================================
