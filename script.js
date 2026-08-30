@@ -53,6 +53,50 @@ if (auth) {
 
     });
 }
+// =====================================================
+// 16. USER PROFILE DATABASE
+// =====================================================
+
+if (auth && database) {
+
+    auth.onAuthStateChanged(function (user) {
+
+        if (!user) {
+            console.log("No user logged in.");
+            return;
+        }
+
+        const userRef = database.ref("users/" + user.uid);
+
+        userRef.once("value").then(function (snapshot) {
+
+            if (!snapshot.exists()) {
+
+                userRef.set({
+                    email: user.email,
+                    createdAt: firebase.database.ServerValue.TIMESTAMP
+                });
+
+                console.log("New user profile created.");
+
+            } else {
+
+                console.log("User profile already exists.");
+
+            }
+
+        }).catch(function (error) {
+
+            console.error(
+                "Profile database error:",
+                error
+            );
+
+        });
+
+    });
+
+}
 
 
 // =====================================================
