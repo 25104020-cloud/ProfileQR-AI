@@ -354,6 +354,20 @@ if (
 
     loadProfile(profileId);
 
+    // Record profile view
+    database
+        .ref("analytics/" + profileId + "/profileViews")
+        .transaction(function (currentValue) {
+
+            return (currentValue || 0) + 1;
+
+        });
+
+    // Record last viewed time
+    database
+        .ref("analytics/" + profileId + "/lastViewed")
+        .set(new Date().toISOString());
+
 }
 
 
