@@ -37,6 +37,22 @@ const auth =
     typeof firebase !== "undefined"
         ? firebase.auth()
         : null;
+// =====================================================
+// 14. AUTHENTICATION STATE
+// =====================================================
+
+if (auth) {
+    auth.onAuthStateChanged(function (user) {
+
+        if (user) {
+            console.log("User signed in:", user.email);
+            console.log("User ID:", user.uid);
+        } else {
+            console.log("No user is currently signed in.");
+        }
+
+    });
+}
 
 
 // =====================================================
