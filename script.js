@@ -332,6 +332,18 @@ function fileToBase64(file) {
 
 }
 
+// =====================================================
+// PROFILE URL PARAMETERS
+// =====================================================
+
+const urlParams =
+    new URLSearchParams(
+        window.location.search
+    );
+
+const profileId =
+    urlParams.get("id");
+
 
 // =====================================================
 // 4. LOAD PROFILE
