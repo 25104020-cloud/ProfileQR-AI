@@ -9,7 +9,7 @@
 // =====================================================
 
 const firebaseConfig = {
-    apiKey: "AIzaSyB10mhI6HjKDqDUezDaV0WMjohwu7P491U",
+    apiKey: "AIzaSyDUQVYqD8ruoksVUBkEd61Kojb2ouMW3nI",
     authDomain: "profileqr-ai.firebaseapp.com",
     databaseURL: "https://profileqr-ai-default-rtdb.firebaseio.com",
     projectId: "profileqr-ai",
