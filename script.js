@@ -331,6 +331,15 @@ if (profileForm) {
                 photoInput.files.length > 0
                     ? photoInput.files[0]
                     : null;
+            // Limit profile photo to 500 KB
+if (photoFile && photoFile.size > 500 * 1024) {
+
+    alert(
+        "Profile photo is too large. Please upload an image smaller than 500 KB."
+    );
+
+    return;
+}
 
 
 
@@ -438,12 +447,12 @@ if (profileForm) {
                 if (resumeFile) {
 
                     if (
-                        resumeFile.size >
-                        3 * 1024 * 1024
+                        resumeFile.size > 
+1 * 1024 * 1024
                     ) {
 
                         alert(
-                            "Resume is too large. Please use a PDF smaller than 3 MB."
+                            "Resume is too large. Please use a PDF smaller than 1MB."
                         );
 
 
