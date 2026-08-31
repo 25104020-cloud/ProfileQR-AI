@@ -460,9 +460,8 @@ async function loadProfile(id) {
 
         const snapshot =
             await database
-                .ref("profiles/" + id)
+                .ref("users/" + id)
                 .once("value");
-
 
         if (!snapshot.exists()) {
 
@@ -471,19 +470,15 @@ async function loadProfile(id) {
             return;
         }
 
-
         const profileData =
             snapshot.val();
-
 
         displayProfile(
             profileData,
             id
         );
 
-    }
-
-    catch (error) {
+    } catch (error) {
 
         console.error(
             "Profile loading error:",
