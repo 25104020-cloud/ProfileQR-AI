@@ -19,9 +19,14 @@
             Profile<span>QR</span> AI
         </a>
 
-        <a href="create-profile.html" class="back-link">
-            ← Edit Profile
-        </a>
+        <a
+    href="create-profile.html"
+    class="back-link"
+    id="editProfileButton"
+    style="display: none;"
+>
+    ← Edit Profile
+</a>
 
     </nav>
 
@@ -155,6 +160,37 @@
                 </button>
 
             </div>
+            <!-- Profile Analytics -->
+<div class="profile-section analytics-section">
+
+    <h2>
+        📊 Profile Analytics
+    </h2>
+
+    <div class="analytics-container">
+
+        <div class="analytics-box">
+            <strong id="profileViews">0</strong>
+            <span>Profile Views</span>
+        </div>
+
+        <div class="analytics-box">
+            <strong id="qrScans">0</strong>
+            <span>QR Scans</span>
+        </div>
+
+        <div class="analytics-box">
+            <strong id="resumeViews">0</strong>
+            <span>Resume Views</span>
+        </div>
+
+    </div>
+
+    <p id="lastViewed">
+        Last viewed: —
+    </p>
+
+</div>
 
 
             <!-- Social Links -->
@@ -193,13 +229,18 @@
     </section>
 
 
-    <!-- QR CODE LIBRARY -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+   <!-- QR CODE LIBRARY -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
-    <!-- OUR SCRIPT -->
-    <script src="script.js"></script>
+<!-- OUR SCRIPT -->
+<script src="script.js"></script>
 
 </body>
 
