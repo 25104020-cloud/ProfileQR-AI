@@ -18,9 +18,10 @@ const firebaseConfig = {
     appId: "1:978918324164:web:513508e496731fec961691",
     measurementId: "G-F8PJXP5N7L"
 };
+// =====================================================
+// START FIREBASE
+// =====================================================
 
-
-// Start Firebase
 if (typeof firebase !== "undefined") {
 
     if (!firebase.apps.length) {
@@ -29,12 +30,24 @@ if (typeof firebase !== "undefined") {
 
 }
 
+// =====================================================
+// DATABASE
+// =====================================================
+
 const database =
-    typeof firebase !== "undefined"
+    typeof firebase !== "undefined" &&
+    typeof firebase.database === "function"
         ? firebase.database()
         : null;
+
+
+// =====================================================
+// AUTHENTICATION
+// =====================================================
+
 const auth =
-    typeof firebase !== "undefined"
+    typeof firebase !== "undefined" &&
+    typeof firebase.auth === "function"
         ? firebase.auth()
         : null;
 // =====================================================
@@ -407,6 +420,9 @@ const urlParams =
 
 const profileId =
     urlParams.get("id");
+console.log("PROFILE ID FROM URL:", profileId);
+console.log("CURRENT URL:", window.location.href);
+console.log("DATABASE:", database);
 
 
 // =====================================================
@@ -418,6 +434,7 @@ if (
     document.getElementById("displayName") &&
     database
 ) {
+    console.log("LOADING PROFILE:", profileId);
 
     loadProfile(profileId);
 
