@@ -4,6 +4,7 @@
 // =====================================================
 
 
+
 // =====================================================
 // 1. FIREBASE CONFIGURATION
 // =====================================================
@@ -18,6 +19,9 @@ const firebaseConfig = {
     appId: "1:978918324164:web:513508e496731fec961691",
     measurementId: "G-F8PJXP5N7L"
 };
+
+
+
 // =====================================================
 // START FIREBASE
 // =====================================================
@@ -25,10 +29,16 @@ const firebaseConfig = {
 if (typeof firebase !== "undefined") {
 
     if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
+
+        firebase.initializeApp(
+            firebaseConfig
+        );
+
     }
 
 }
+
+
 
 // =====================================================
 // DATABASE
@@ -41,6 +51,7 @@ const database =
         : null;
 
 
+
 // =====================================================
 // AUTHENTICATION
 // =====================================================
@@ -50,22 +61,43 @@ const auth =
     typeof firebase.auth === "function"
         ? firebase.auth()
         : null;
+
+
+
 // =====================================================
 // 14. AUTHENTICATION STATE
 // =====================================================
 
 if (auth) {
+
     auth.onAuthStateChanged(function (user) {
 
         if (user) {
-            console.log("User signed in:", user.email);
-            console.log("User ID:", user.uid);
+
+            console.log(
+                "User signed in:",
+                user.email
+            );
+
+            console.log(
+                "User ID:",
+                user.uid
+            );
+
         } else {
-            console.log("No user is currently signed in.");
+
+            console.log(
+                "No user is currently signed in."
+            );
+
         }
 
     });
+
 }
+
+
+
 // =====================================================
 // 16. USER PROFILE DATABASE
 // =====================================================
@@ -75,41 +107,69 @@ if (auth && database) {
     auth.onAuthStateChanged(function (user) {
 
         if (!user) {
-            console.log("No user logged in.");
-            return;
-        }
 
-        const userRef = database.ref("users/" + user.uid);
-
-        userRef.once("value").then(function (snapshot) {
-
-            if (!snapshot.exists()) {
-
-                userRef.set({
-                    email: user.email,
-                    createdAt: firebase.database.ServerValue.TIMESTAMP
-                });
-
-                console.log("New user profile created.");
-
-            } else {
-
-                console.log("User profile already exists.");
-
-            }
-
-        }).catch(function (error) {
-
-            console.error(
-                "Profile database error:",
-                error
+            console.log(
+                "No user logged in."
             );
 
-        });
+            return;
+
+        }
+
+
+
+        const userRef =
+            database.ref(
+                "users/" + user.uid
+            );
+
+
+
+        userRef.once("value")
+
+            .then(function (snapshot) {
+
+                if (!snapshot.exists()) {
+
+                    userRef.set({
+
+                        email:
+                            user.email,
+
+                        createdAt:
+                            firebase.database
+                                .ServerValue
+                                .TIMESTAMP
+
+                    });
+
+                    console.log(
+                        "New user profile created."
+                    );
+
+                } else {
+
+                    console.log(
+                        "User profile already exists."
+                    );
+
+                }
+
+            })
+
+            .catch(function (error) {
+
+                console.error(
+                    "Profile database error:",
+                    error
+                );
+
+            });
 
     });
 
 }
+
 
 
 // =====================================================
@@ -117,261 +177,455 @@ if (auth && database) {
 // =====================================================
 
 const profileForm =
-    document.getElementById("profileForm");
+    document.getElementById(
+        "profileForm"
+    );
+
 
 
 if (profileForm) {
 
-    profileForm.addEventListener("submit", async function (event) {
+    profileForm.addEventListener(
 
-        event.preventDefault();
+        "submit",
 
+        async function (event) {
 
-        // Get form values
-        const fullName =
-            document.getElementById("fullName").value.trim();
-
-        const title =
-            document.getElementById("title").value.trim();
-
-        const bio =
-            document.getElementById("bio").value.trim();
-
-        const email =
-            document.getElementById("email").value.trim();
-
-        const phone =
-            document.getElementById("phone").value.trim();
-
-        const education =
-            document.getElementById("education").value.trim();
-
-        const skills =
-            document.getElementById("skills").value.trim();
-
-        const projects =
-            document.getElementById("projects").value.trim();
-
-        const achievementsElement =
-            document.getElementById("achievements");
-
-        const achievements =
-            achievementsElement
-                ? achievementsElement.value.trim()
-                : "";
-
-        const linkedin =
-            document.getElementById("linkedin").value.trim();
-
-        const github =
-            document.getElementById("github").value.trim();
+            event.preventDefault();
 
 
-        // -------------------------------------------------
-        // Profile photo
-        // -------------------------------------------------
 
-        const photoInput =
-            document.getElementById("profilePhoto");
+            // =================================================
+            // GET FORM VALUES
+            // =================================================
 
-        const photoFile =
-            photoInput && photoInput.files.length > 0
-                ? photoInput.files[0]
-                : null;
-
-
-        // -------------------------------------------------
-        // Resume
-        // -------------------------------------------------
-
-        const resumeInput =
-            document.getElementById("resume");
-
-        const resumeFile =
-            resumeInput && resumeInput.files.length > 0
-                ? resumeInput.files[0]
-                : null;
+            const fullName =
+                document
+                    .getElementById(
+                        "fullName"
+                    )
+                    .value
+                    .trim();
 
 
-        // -------------------------------------------------
-        // Basic validation
-        // -------------------------------------------------
 
-        if (!fullName) {
-
-            alert("Please enter your full name.");
-
-            return;
-        }
+            const title =
+                document
+                    .getElementById(
+                        "title"
+                    )
+                    .value
+                    .trim();
 
 
-        if (!database) {
 
-            alert(
-                "Firebase could not be loaded. Please check your internet connection."
-            );
-
-            return;
-        }
-
-
-        // -------------------------------------------------
-        // Show saving message
-        // -------------------------------------------------
-
-        const submitButton =
-            profileForm.querySelector(
-                'button[type="submit"]'
-            );
-
-        if (submitButton) {
-
-            submitButton.disabled = true;
-
-            submitButton.textContent =
-                "Saving Profile...";
-        }
+            const bio =
+                document
+                    .getElementById(
+                        "bio"
+                    )
+                    .value
+                    .trim();
 
 
-        try {
 
-            // -------------------------------------------------
-            // Convert photo to Base64
-            // -------------------------------------------------
+            const email =
+                document
+                    .getElementById(
+                        "email"
+                    )
+                    .value
+                    .trim();
 
-            let photoData = "";
 
-            if (photoFile) {
 
-                photoData =
-                    await fileToBase64(photoFile);
+            const phone =
+                document
+                    .getElementById(
+                        "phone"
+                    )
+                    .value
+                    .trim();
+
+
+
+            const education =
+                document
+                    .getElementById(
+                        "education"
+                    )
+                    .value
+                    .trim();
+
+
+
+            const skills =
+                document
+                    .getElementById(
+                        "skills"
+                    )
+                    .value
+                    .trim();
+
+
+
+            const projects =
+                document
+                    .getElementById(
+                        "projects"
+                    )
+                    .value
+                    .trim();
+
+
+
+            const achievementsElement =
+                document.getElementById(
+                    "achievements"
+                );
+
+
+
+            const achievements =
+                achievementsElement
+                    ? achievementsElement
+                        .value
+                        .trim()
+                    : "";
+
+
+
+            const linkedin =
+                document
+                    .getElementById(
+                        "linkedin"
+                    )
+                    .value
+                    .trim();
+
+
+
+            const github =
+                document
+                    .getElementById(
+                        "github"
+                    )
+                    .value
+                    .trim();
+
+
+
+            // =================================================
+            // PROFILE PHOTO
+            // =================================================
+
+            const photoInput =
+                document.getElementById(
+                    "profilePhoto"
+                );
+
+
+
+            const photoFile =
+                photoInput &&
+                photoInput.files.length > 0
+                    ? photoInput.files[0]
+                    : null;
+
+
+
+            // =================================================
+            // RESUME
+            // =================================================
+
+            const resumeInput =
+                document.getElementById(
+                    "resume"
+                );
+
+
+
+            const resumeFile =
+                resumeInput &&
+                resumeInput.files.length > 0
+                    ? resumeInput.files[0]
+                    : null;
+
+
+
+            // =================================================
+            // BASIC VALIDATION
+            // =================================================
+
+            if (!fullName) {
+
+                alert(
+                    "Please enter your full name."
+                );
+
+                return;
+
             }
 
 
-            // -------------------------------------------------
-            // Convert resume to Base64
-            // -------------------------------------------------
 
-            let resumeData = "";
+            if (!database) {
 
-            if (resumeFile) {
+                alert(
+                    "Firebase could not be loaded. Please check your internet connection."
+                );
 
-                // Limit resume size
-                if (resumeFile.size > 3 * 1024 * 1024) {
+                return;
 
-                    alert(
-                        "Resume is too large. Please use a PDF smaller than 3 MB."
-                    );
-
-                    if (submitButton) {
-
-                        submitButton.disabled = false;
-
-                        submitButton.textContent =
-                            "Generate My Profile →";
-                    }
-
-                    return;
-                }
-
-                resumeData =
-                    await fileToBase64(resumeFile);
             }
 
 
-            // -------------------------------------------------
-            // Create Firebase unique profile ID
-            // -------------------------------------------------
 
-            const profileReference =
-                database.ref("profiles").push();
+            // =================================================
+            // SHOW SAVING MESSAGE
+            // =================================================
 
-            const profileId =
-                profileReference.key;
+            const submitButton =
+                profileForm.querySelector(
+                    'button[type="submit"]'
+                );
 
-
-            // -------------------------------------------------
-            // Profile object
-            // -------------------------------------------------
-
-            const profileData = {
-
-                fullName: fullName,
-
-                title: title,
-
-                bio: bio,
-
-                email: email,
-
-                phone: phone,
-
-                education: education,
-
-                skills: skills,
-
-                projects: projects,
-
-                achievements: achievements,
-
-                linkedin: linkedin,
-
-                github: github,
-
-                photo: photoData,
-
-                resume: resumeData,
-
-                createdAt:
-                    new Date().toISOString()
-            };
-
-
-            // -------------------------------------------------
-            // Save profile to Firebase
-            // -------------------------------------------------
-
-            await profileReference.set(
-                profileData
-            );
-
-
-            // -------------------------------------------------
-            // Open profile page
-            // -------------------------------------------------
-
-            window.location.href =
-                "profile.html?id=" +
-                encodeURIComponent(profileId);
-
-        }
-
-        catch (error) {
-
-            console.error(
-                "Profile saving error:",
-                error
-            );
-
-            alert(
-                "Something went wrong while saving your profile.\n\n" +
-                error.message
-            );
 
 
             if (submitButton) {
 
-                submitButton.disabled = false;
+                submitButton.disabled =
+                    true;
 
                 submitButton.textContent =
-                    "Generate My Profile →";
+                    "Saving Profile...";
+
+            }
+
+
+
+            try {
+
+                // =============================================
+                // CONVERT PHOTO TO BASE64
+                // =============================================
+
+                let photoData =
+                    "";
+
+
+
+                if (photoFile) {
+
+                    photoData =
+                        await fileToBase64(
+                            photoFile
+                        );
+
+                }
+
+
+
+                // =============================================
+                // CONVERT RESUME TO BASE64
+                // =============================================
+
+                let resumeData =
+                    "";
+
+
+
+                if (resumeFile) {
+
+                    if (
+                        resumeFile.size >
+                        3 * 1024 * 1024
+                    ) {
+
+                        alert(
+                            "Resume is too large. Please use a PDF smaller than 3 MB."
+                        );
+
+
+
+                        if (submitButton) {
+
+                            submitButton.disabled =
+                                false;
+
+                            submitButton.textContent =
+                                "Generate My Profile →";
+
+                        }
+
+                        return;
+
+                    }
+
+
+
+                    resumeData =
+                        await fileToBase64(
+                            resumeFile
+                        );
+
+                }
+
+
+
+                // =============================================
+                // CREATE FIREBASE UNIQUE PROFILE ID
+                // =============================================
+
+                const profileReference =
+                    database
+                        .ref("profiles")
+                        .push();
+
+
+
+                const profileId =
+                    profileReference.key;
+
+
+
+                // =============================================
+                // PROFILE OBJECT
+                // =============================================
+
+                const profileData = {
+
+                    // Profile owner
+
+                    ownerUid:
+
+                        auth &&
+                        auth.currentUser
+
+                            ? auth.currentUser.uid
+
+                            : null,
+
+
+                    fullName:
+                        fullName,
+
+
+                    title:
+                        title,
+
+
+                    bio:
+                        bio,
+
+
+                    email:
+                        email,
+
+
+                    phone:
+                        phone,
+
+
+                    education:
+                        education,
+
+
+                    skills:
+                        skills,
+
+
+                    projects:
+                        projects,
+
+
+                    achievements:
+                        achievements,
+
+
+                    linkedin:
+                        linkedin,
+
+
+                    github:
+                        github,
+
+
+                    photo:
+                        photoData,
+
+
+                    resume:
+                        resumeData,
+
+
+                    createdAt:
+                        new Date()
+                            .toISOString()
+
+                };
+
+
+
+                // =============================================
+                // SAVE PROFILE
+                // =============================================
+
+                await profileReference.set(
+                    profileData
+                );
+
+
+
+                // =============================================
+                // OPEN PROFILE PAGE
+                // =============================================
+
+                window.location.href =
+                    "profile.html?id=" +
+                    encodeURIComponent(
+                        profileId
+                    );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Profile saving error:",
+                    error
+                );
+
+
+
+                alert(
+
+                    "Something went wrong while saving your profile.\n\n" +
+
+                    error.message
+
+                );
+
+
+
+                if (submitButton) {
+
+                    submitButton.disabled =
+                        false;
+
+                    submitButton.textContent =
+                        "Generate My Profile →";
+
+                }
+
             }
 
         }
 
-    });
+    );
 
 }
+
 
 
 // =====================================================
@@ -380,34 +634,53 @@ if (profileForm) {
 
 function fileToBase64(file) {
 
-    return new Promise(function (resolve, reject) {
+    return new Promise(
+        function (resolve, reject) {
 
-        const reader =
-            new FileReader();
+            const reader =
+                new FileReader();
 
-        reader.onload = function () {
 
-            resolve(
-                reader.result
+
+            reader.onload =
+                function () {
+
+                    resolve(
+                        reader.result
+                    );
+
+                };
+
+
+
+            reader.onerror =
+                function () {
+
+                    reject(
+
+                        new Error(
+
+                            "Could not read the selected file."
+
+                        )
+
+                    );
+
+                };
+
+
+
+            reader.readAsDataURL(
+                file
             );
 
-        };
+        }
 
-        reader.onerror = function () {
-
-            reject(
-                new Error(
-                    "Could not read the selected file."
-                )
-            );
-
-        };
-
-        reader.readAsDataURL(file);
-
-    });
+    );
 
 }
+
+
 
 // =====================================================
 // PROFILE URL PARAMETERS
@@ -418,11 +691,32 @@ const urlParams =
         window.location.search
     );
 
+
+
 const profileId =
     urlParams.get("id");
-console.log("PROFILE ID FROM URL:", profileId);
-console.log("CURRENT URL:", window.location.href);
-console.log("DATABASE:", database);
+
+
+
+console.log(
+    "PROFILE ID FROM URL:",
+    profileId
+);
+
+
+
+console.log(
+    "CURRENT URL:",
+    window.location.href
+);
+
+
+
+console.log(
+    "DATABASE:",
+    database
+);
+
 
 
 // =====================================================
@@ -430,41 +724,112 @@ console.log("DATABASE:", database);
 // =====================================================
 
 if (
+
     profileId &&
-    document.getElementById("displayName") &&
+
+    document.getElementById(
+        "displayName"
+    ) &&
+
     database
+
 ) {
-    console.log("LOADING PROFILE:", profileId);
 
-    loadProfile(profileId);
+    console.log(
+        "LOADING PROFILE:",
+        profileId
+    );
 
-    // Record profile view
+
+
+    // =============================================
+    // LOAD PROFILE
+    // =============================================
+
+    loadProfile(
+        profileId
+    );
+
+
+
+    // =============================================
+    // RECORD PROFILE VIEW
+    // =============================================
+
     database
-        .ref("analytics/" + profileId + "/profileViews")
-        .transaction(function (currentValue) {
 
-            return (currentValue || 0) + 1;
+        .ref(
+            "analytics/" +
+            profileId +
+            "/profileViews"
+        )
 
-        });
-        // Record QR scan
-const source = urlParams.get("source");
+        .transaction(
+            function (currentValue) {
 
-if (source === "qr") {
+                return (
+                    currentValue || 0
+                ) + 1;
+
+            }
+        );
+
+
+
+    // =============================================
+    // RECORD QR SCAN
+    // =============================================
+
+    const source =
+        urlParams.get(
+            "source"
+        );
+
+
+
+    if (source === "qr") {
+
+        database
+
+            .ref(
+                "analytics/" +
+                profileId +
+                "/qrScans"
+            )
+
+            .transaction(
+                function (currentValue) {
+
+                    return (
+                        currentValue || 0
+                    ) + 1;
+
+                }
+            );
+
+    }
+
+
+
+    // =============================================
+    // RECORD LAST VIEWED TIME
+    // =============================================
+
     database
-        .ref("analytics/" + profileId + "/qrScans")
-        .transaction(function (currentValue) {
 
-            return (currentValue || 0) + 1;
+        .ref(
+            "analytics/" +
+            profileId +
+            "/lastViewed"
+        )
 
-        });
+        .set(
+            new Date()
+                .toISOString()
+        );
+
 }
 
-    // Record last viewed time
-    database
-        .ref("analytics/" + profileId + "/lastViewed")
-        .set(new Date().toISOString());
-
-}
 
 
 // =====================================================
@@ -476,205 +841,551 @@ async function loadProfile(id) {
     try {
 
         const snapshot =
+
             await database
-                .ref("profiles/" + id)
-                .once("value");
+
+                .ref(
+                    "profiles/" +
+                    id
+                )
+
+                .once(
+                    "value"
+                );
+
+
+
+        // =============================================
+        // CHECK IF PROFILE EXISTS
+        // =============================================
 
         if (!snapshot.exists()) {
 
             showProfileError();
 
             return;
+
         }
+
+
+
+        // =============================================
+        // GET PROFILE DATA
+        // =============================================
 
         const profileData =
             snapshot.val();
 
+
+
+        // =============================================
+        // DISPLAY PROFILE
+        // =============================================
+
         displayProfile(
+
             profileData,
+
+            id
+
+        );
+
+
+
+        // =============================================
+        // LOAD ANALYTICS
+        // =============================================
+
+        loadAnalytics(
             id
         );
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         console.error(
+
             "Profile loading error:",
+
             error
+
         );
+
+
 
         showProfileError();
 
     }
 
 }
+
+
+
+// =====================================================
+// LOAD PROFILE ANALYTICS
+// REAL-TIME VERSION
+// =====================================================
+
+function loadAnalytics(profileId) {
+
+    if (!database) {
+
+        return;
+
+    }
+
+
+
+    // =============================================
+    // REAL-TIME ANALYTICS LISTENER
+    // =============================================
+
+    database
+
+        .ref(
+            "analytics/" +
+            profileId
+        )
+
+        .on(
+
+            "value",
+
+            function (snapshot) {
+
+                const analytics =
+
+                    snapshot.exists()
+
+                        ? snapshot.val()
+
+                        : {};
+
+
+
+                // =========================================
+                // PROFILE VIEWS
+                // =========================================
+
+                const profileViews =
+
+                    document.getElementById(
+                        "profileViews"
+                    );
+
+
+
+                if (profileViews) {
+
+                    profileViews.textContent =
+
+                        analytics.profileViews || 0;
+
+                }
+
+
+
+                // =========================================
+                // QR SCANS
+                // =========================================
+
+                const qrScans =
+
+                    document.getElementById(
+                        "qrScans"
+                    );
+
+
+
+                if (qrScans) {
+
+                    qrScans.textContent =
+
+                        analytics.qrScans || 0;
+
+                }
+
+
+
+                // =========================================
+                // RESUME VIEWS
+                // =========================================
+
+                const resumeViews =
+
+                    document.getElementById(
+                        "resumeViews"
+                    );
+
+
+
+                if (resumeViews) {
+
+                    resumeViews.textContent =
+
+                        analytics.resumeViews || 0;
+
+                }
+
+
+
+                // =========================================
+                // LAST VIEWED
+                // =========================================
+
+                const lastViewed =
+
+                    document.getElementById(
+                        "lastViewed"
+                    );
+
+
+
+                if (lastViewed) {
+
+                    if (
+                        analytics.lastViewed
+                    ) {
+
+                        const date =
+
+                            new Date(
+                                analytics.lastViewed
+                            );
+
+
+
+                        lastViewed.textContent =
+
+                            "Last viewed: " +
+
+                            date.toLocaleString();
+
+                    }
+
+                    else {
+
+                        lastViewed.textContent =
+
+                            "Last viewed: —";
+
+                    }
+
+                }
+
+            },
+
+
+
+            function (error) {
+
+                console.error(
+
+                    "Analytics loading error:",
+
+                    error
+
+                );
+
+            }
+
+        );
+
+}
+
+
+
 // =====================================================
 // 6. DISPLAY PROFILE
 // =====================================================
 
 function displayProfile(
+
     profileData,
+
     id
+
 ) {
 
 
-    // -------------------------------------------------
-    // Name
-    // -------------------------------------------------
+
+    // =================================================
+    // PROFILE OWNER
+    // SHOW EDIT BUTTON ONLY TO OWNER
+    // =================================================
+
+    const editProfileButton =
+
+        document.getElementById(
+            "editProfileButton"
+        );
+
+
+
+    if (editProfileButton) {
+
+        if (
+
+            auth &&
+
+            auth.currentUser &&
+
+            profileData.ownerUid &&
+
+            auth.currentUser.uid ===
+            profileData.ownerUid
+
+        ) {
+
+            editProfileButton.style.display =
+                "block";
+
+        }
+
+        else {
+
+            editProfileButton.style.display =
+                "none";
+
+        }
+
+    }
+
+
+
+    // =================================================
+    // NAME
+    // =================================================
 
     const displayName =
+
         document.getElementById(
             "displayName"
         );
 
+
+
     if (displayName) {
 
         displayName.textContent =
+
             profileData.fullName ||
+
             "Your Name";
+
     }
 
 
-    // -------------------------------------------------
-    // Title
-    // -------------------------------------------------
+
+    // =================================================
+    // TITLE
+    // =================================================
 
     const displayTitle =
+
         document.getElementById(
             "displayTitle"
         );
 
+
+
     if (displayTitle) {
 
         displayTitle.textContent =
+
             profileData.title ||
+
             "Professional";
+
     }
 
 
-    // -------------------------------------------------
-    // Bio
-    // -------------------------------------------------
+
+    // =================================================
+    // BIO
+    // =================================================
 
     const displayBio =
+
         document.getElementById(
             "displayBio"
         );
 
+
+
     if (displayBio) {
 
         displayBio.textContent =
+
             profileData.bio ||
+
             "No bio added yet.";
+
     }
 
 
-    // -------------------------------------------------
-    // Education
-    // -------------------------------------------------
+
+    // =================================================
+    // EDUCATION
+    // =================================================
 
     const displayEducation =
+
         document.getElementById(
             "displayEducation"
         );
 
+
+
     if (displayEducation) {
 
         displayEducation.textContent =
+
             profileData.education ||
+
             "No education information added.";
+
     }
 
 
-    // -------------------------------------------------
-    // Projects
-    // -------------------------------------------------
+
+    // =================================================
+    // PROJECTS
+    // =================================================
 
     const displayProjects =
+
         document.getElementById(
             "displayProjects"
         );
 
+
+
     if (displayProjects) {
 
         displayProjects.textContent =
+
             profileData.projects ||
+
             "No projects added.";
+
     }
 
 
-    // -------------------------------------------------
-    // Achievements
-    // -------------------------------------------------
+
+    // =================================================
+    // ACHIEVEMENTS
+    // =================================================
 
     const displayAchievements =
+
         document.getElementById(
             "displayAchievements"
         );
 
+
+
     if (displayAchievements) {
 
         displayAchievements.textContent =
+
             profileData.achievements ||
+
             "No achievements or certificates added yet.";
+
     }
 
 
-    // -------------------------------------------------
-    // Email
-    // -------------------------------------------------
+
+    // =================================================
+    // EMAIL
+    // =================================================
 
     const displayEmail =
+
         document.getElementById(
             "displayEmail"
         );
+
+
 
     if (displayEmail) {
 
         if (profileData.email) {
 
             displayEmail.innerHTML =
-                "📧 <a href=\"mailto:" +
-                escapeAttribute(profileData.email) +
-                "\" style=\"color:#38bdf8;\">" +
-                escapeHTML(profileData.email) +
+
+                '📧 <a href="mailto:' +
+
+                escapeAttribute(
+                    profileData.email
+                ) +
+
+                '" style="color:#38bdf8;">' +
+
+                escapeHTML(
+                    profileData.email
+                ) +
+
                 "</a>";
 
-        } else {
+        }
+
+        else {
 
             displayEmail.textContent =
                 "";
+
         }
 
     }
 
 
-    // -------------------------------------------------
-    // Phone
-    // -------------------------------------------------
+
+    // =================================================
+    // PHONE
+    // =================================================
 
     const displayPhone =
+
         document.getElementById(
             "displayPhone"
         );
+
+
 
     if (displayPhone) {
 
         if (profileData.phone) {
 
             displayPhone.innerHTML =
-                "📱 <a href=\"tel:" +
-                escapeAttribute(profileData.phone) +
-                "\" style=\"color:#38bdf8;\">" +
-                escapeHTML(profileData.phone) +
+
+                '📱 <a href="tel:' +
+
+                escapeAttribute(
+                    profileData.phone
+                ) +
+
+                '" style="color:#38bdf8;">' +
+
+                escapeHTML(
+                    profileData.phone
+                ) +
+
                 "</a>";
 
-        } else {
+        }
+
+        else {
 
             displayPhone.textContent =
                 "";
+
         }
 
     }
+
 
 
     // =================================================
@@ -682,50 +1393,78 @@ function displayProfile(
     // =================================================
 
     const avatar =
+
         document.getElementById(
             "profileAvatar"
         );
+
 
 
     if (avatar) {
 
         if (profileData.photo) {
 
-            avatar.innerHTML = "";
+            avatar.innerHTML =
+                "";
+
+
 
             const image =
-                document.createElement("img");
+
+                document.createElement(
+                    "img"
+                );
+
+
 
             image.src =
                 profileData.photo;
 
+
+
             image.alt =
+
                 profileData.fullName ||
+
                 "Profile Photo";
+
+
 
             image.style.width =
                 "100%";
 
+
+
             image.style.height =
                 "100%";
+
+
 
             image.style.objectFit =
                 "cover";
 
+
+
             image.style.borderRadius =
                 "50%";
+
+
 
             avatar.appendChild(
                 image
             );
 
-        } else {
+        }
+
+        else {
 
             avatar.innerHTML =
                 "👤";
+
         }
 
     }
+
 
 
     // =================================================
@@ -733,45 +1472,63 @@ function displayProfile(
     // =================================================
 
     const skillsContainer =
+
         document.getElementById(
             "displaySkills"
         );
 
 
+
     if (skillsContainer) {
 
-        skillsContainer.innerHTML = "";
+        skillsContainer.innerHTML =
+            "";
+
 
 
         if (profileData.skills) {
 
             const skillsArray =
+
                 profileData.skills
                     .split(",");
 
 
+
             skillsArray.forEach(
+
                 function (skill) {
 
                     const cleanSkill =
+
                         skill.trim();
 
 
-                    if (!cleanSkill) return;
+
+                    if (!cleanSkill) {
+
+                        return;
+
+                    }
+
 
 
                     const skillTag =
+
                         document.createElement(
                             "span"
                         );
+
 
 
                     skillTag.className =
                         "skill-tag";
 
 
+
                     skillTag.textContent =
                         cleanSkill;
+
 
 
                     skillsContainer.appendChild(
@@ -779,6 +1536,7 @@ function displayProfile(
                     );
 
                 }
+
             );
 
         }
@@ -786,14 +1544,17 @@ function displayProfile(
     }
 
 
+
     // =================================================
     // LINKEDIN
     // =================================================
 
     const linkedinLink =
+
         document.getElementById(
             "linkedinLink"
         );
+
 
 
     if (linkedinLink) {
@@ -801,26 +1562,37 @@ function displayProfile(
         if (profileData.linkedin) {
 
             linkedinLink.href =
+
                 makeSafeURL(
                     profileData.linkedin
                 );
 
+
+
             linkedinLink.target =
                 "_blank";
+
+
 
             linkedinLink.rel =
                 "noopener noreferrer";
 
+
+
             linkedinLink.style.display =
                 "block";
 
-        } else {
+        }
+
+        else {
 
             linkedinLink.style.display =
                 "none";
+
         }
 
     }
+
 
 
     // =================================================
@@ -828,9 +1600,11 @@ function displayProfile(
     // =================================================
 
     const githubLink =
+
         document.getElementById(
             "githubLink"
         );
+
 
 
     if (githubLink) {
@@ -838,26 +1612,37 @@ function displayProfile(
         if (profileData.github) {
 
             githubLink.href =
+
                 makeSafeURL(
                     profileData.github
                 );
 
+
+
             githubLink.target =
                 "_blank";
+
+
 
             githubLink.rel =
                 "noopener noreferrer";
 
+
+
             githubLink.style.display =
                 "block";
 
-        } else {
+        }
+
+        else {
 
             githubLink.style.display =
                 "none";
+
         }
 
     }
+
 
 
     // =================================================
@@ -865,9 +1650,11 @@ function displayProfile(
     // =================================================
 
     const resumeLink =
+
         document.getElementById(
             "resumeLink"
         );
+
 
 
     if (resumeLink) {
@@ -877,34 +1664,49 @@ function displayProfile(
             resumeLink.href =
                 profileData.resume;
 
+
+
             resumeLink.target =
                 "_blank";
+
+
 
             resumeLink.rel =
                 "noopener noreferrer";
 
+
+
             resumeLink.textContent =
                 "📄 View Resume";
+
+
 
             resumeLink.style.display =
                 "block";
 
-        } else {
+        }
+
+        else {
 
             resumeLink.style.display =
                 "none";
+
         }
 
     }
+
 
 
     // =================================================
     // GENERATE PERSONAL QR
     // =================================================
 
-    generateProfileQR(id);
+    generateProfileQR(
+        id
+    );
 
 }
+
 
 
 // =====================================================
@@ -914,76 +1716,128 @@ function displayProfile(
 function generateProfileQR(id) {
 
     const qrContainer =
+
         document.getElementById(
             "qrcode"
         );
 
 
+
     if (
+
         !qrContainer ||
+
         typeof QRCode === "undefined"
+
     ) {
 
         return;
+
     }
 
 
-    // Get current website URL
+
+    // =================================================
+    // GET CURRENT WEBSITE URL
+    // =================================================
+
     const currentURL =
+
         window.location.href
+
             .split("?")[0];
 
 
-    // Create short profile URL
+
+    // =================================================
+    // CREATE QR PROFILE URL
+    // =================================================
+
     const profileURL =
-    currentURL +
-    "?id=" +
-    encodeURIComponent(id) +
-    "&source=qr";
+
+        currentURL +
+
+        "?id=" +
+
+        encodeURIComponent(id) +
+
+        "&source=qr";
 
 
-    // Clear previous QR
+
+    // =================================================
+    // CLEAR PREVIOUS QR
+    // =================================================
+
     qrContainer.innerHTML =
         "";
 
 
-    // Generate QR
+
+    // =================================================
+    // GENERATE QR
+    // =================================================
+
     new QRCode(
+
         qrContainer,
+
         {
 
-            text: profileURL,
+            text:
+                profileURL,
 
-            width: 300,
 
-            height: 300,
+
+            width:
+                300,
+
+
+
+            height:
+                300,
+
+
 
             correctLevel:
                 QRCode.CorrectLevel.M
 
         }
+
     );
 
 
-    // Display URL for testing
+
+    // =================================================
+    // QR DESCRIPTION
+    // =================================================
+
     const qrDescription =
+
         document.querySelector(
             ".qr-section p"
         );
 
 
+
     if (qrDescription) {
 
         qrDescription.textContent =
+
             "Scan this QR code with your phone to open this profile.";
 
     }
 
 
-    // Download button
+
+    // =================================================
+    // DOWNLOAD BUTTON
+    // =================================================
+
     setupQRDownload();
 
 }
+
 
 
 // =====================================================
@@ -993,37 +1847,51 @@ function generateProfileQR(id) {
 function setupQRDownload() {
 
     const downloadButton =
+
         document.getElementById(
             "downloadQR"
         );
 
 
-    if (!downloadButton) return;
+
+    if (!downloadButton) {
+
+        return;
+
+    }
+
 
 
     downloadButton.onclick =
         function () {
 
 
+
             const qrCanvas =
+
                 document.querySelector(
                     "#qrcode canvas"
                 );
 
 
+
             const qrImage =
+
                 document.querySelector(
                     "#qrcode img"
                 );
+
 
 
             let imageURL =
                 "";
 
 
+
             if (qrCanvas) {
 
                 imageURL =
+
                     qrCanvas.toDataURL(
                         "image/png"
                     );
@@ -1038,6 +1906,7 @@ function setupQRDownload() {
             }
 
 
+
             if (!imageURL) {
 
                 alert(
@@ -1045,21 +1914,27 @@ function setupQRDownload() {
                 );
 
                 return;
+
             }
 
 
+
             const link =
+
                 document.createElement(
                     "a"
                 );
+
 
 
             link.href =
                 imageURL;
 
 
+
             link.download =
                 "ProfileQR-AI-QR.png";
+
 
 
             document.body.appendChild(
@@ -1067,7 +1942,9 @@ function setupQRDownload() {
             );
 
 
+
             link.click();
+
 
 
             document.body.removeChild(
@@ -1079,6 +1956,7 @@ function setupQRDownload() {
 }
 
 
+
 // =====================================================
 // 9. AI BIO GENERATOR
 // =====================================================
@@ -1086,114 +1964,177 @@ function setupQRDownload() {
 function testBio() {
 
     const bioInput =
+
         document.getElementById(
             "bio"
         );
 
 
-    if (!bioInput) return;
+
+    if (!bioInput) {
+
+        return;
+
+    }
+
 
 
     const fullNameInput =
+
         document.getElementById(
             "fullName"
         );
 
 
+
     const titleInput =
+
         document.getElementById(
             "title"
         );
 
 
+
     const skillsInput =
+
         document.getElementById(
             "skills"
         );
 
 
+
     const fullName =
+
         fullNameInput
+
             ? fullNameInput.value.trim()
+
             : "";
+
 
 
     const title =
+
         titleInput
+
             ? titleInput.value.trim()
+
             : "";
+
 
 
     const skills =
+
         skillsInput
+
             ? skillsInput.value.trim()
+
             : "";
 
 
-    // The user's description
+
+    // =================================================
+    // USER DESCRIPTION
+    // =================================================
+
     const userText =
+
         bioInput.value.trim();
+
 
 
     if (!userText) {
 
         alert(
+
             "Please write a few details about yourself first."
+
         );
+
+
 
         bioInput.focus();
 
         return;
+
     }
+
 
 
     let professionalBio =
         "";
 
 
+
     if (fullName) {
 
         professionalBio +=
-            fullName + " is ";
 
-    } else {
+            fullName +
+
+            " is ";
+
+    }
+
+    else {
 
         professionalBio +=
             "I am ";
+
     }
+
 
 
     if (title) {
 
         professionalBio +=
+
             "a " +
+
             title +
+
             " ";
 
-    } else {
+    }
+
+    else {
 
         professionalBio +=
+
             "a motivated and enthusiastic professional ";
+
     }
 
 
+
     professionalBio +=
+
         "with a strong interest in " +
+
         userText +
+
         ". ";
+
 
 
     if (skills) {
 
         professionalBio +=
+
             "Skilled in " +
+
             skills +
+
             ". ";
+
     }
 
 
+
     professionalBio +=
+
         "Passionate about continuous learning, innovation, problem-solving, and building meaningful digital solutions.";
+
 
 
     bioInput.value =
@@ -1202,55 +2143,82 @@ function testBio() {
 }
 
 
+
 // =====================================================
 // 10. HOMEPAGE QR
 // =====================================================
 
 const homeQR =
+
     document.getElementById(
         "homeQRCode"
     );
 
 
+
 if (
+
     homeQR &&
+
     typeof QRCode !== "undefined"
+
 ) {
 
     homeQR.innerHTML =
         "";
 
 
-    // Homepage URL
+
+    // =================================================
+    // HOMEPAGE URL
+    // =================================================
+
     const homeURL =
+
         window.location.origin +
+
         window.location.pathname
+
             .replace(
+
                 "index.html",
+
                 ""
+
             );
 
 
+
     new QRCode(
+
         homeQR,
+
         {
 
             text:
                 homeURL,
 
+
+
             width:
                 180,
 
+
+
             height:
                 180,
+
+
 
             correctLevel:
                 QRCode.CorrectLevel.M
 
         }
+
     );
 
 }
+
 
 
 // =====================================================
@@ -1260,37 +2228,52 @@ if (
 function escapeHTML(value) {
 
     const div =
+
         document.createElement(
             "div"
         );
 
+
+
     div.textContent =
         value || "";
 
+
+
     return div.innerHTML;
+
 }
+
 
 
 function escapeAttribute(value) {
 
-    return String(value || "")
+    return String(
+        value || ""
+    )
+
         .replace(
             /&/g,
             "&amp;"
         )
+
         .replace(
             /"/g,
             "&quot;"
         )
+
         .replace(
             /</g,
             "&lt;"
         )
+
         .replace(
             />/g,
             "&gt;"
         );
+
 }
+
 
 
 function makeSafeURL(url) {
@@ -1298,34 +2281,51 @@ function makeSafeURL(url) {
     try {
 
         const parsedURL =
+
             new URL(
+
                 url,
+
                 window.location.origin
+
             );
 
 
+
         if (
-            parsedURL.protocol === "http:" ||
-            parsedURL.protocol === "https:"
+
+            parsedURL.protocol ===
+                "http:" ||
+
+            parsedURL.protocol ===
+                "https:"
+
         ) {
 
             return parsedURL.href;
+
         }
 
+    }
 
-    } catch (error) {
+    catch (error) {
 
         console.error(
+
             "Invalid URL:",
+
             error
+
         );
 
     }
 
 
+
     return "#";
 
 }
+
 
 
 // =====================================================
@@ -1335,31 +2335,41 @@ function makeSafeURL(url) {
 function showProfileError() {
 
     const name =
+
         document.getElementById(
             "displayName"
         );
+
 
 
     if (name) {
 
         name.textContent =
             "Profile Not Found";
+
     }
 
 
+
     const title =
+
         document.getElementById(
             "displayTitle"
         );
 
 
+
     if (title) {
 
         title.textContent =
+
             "This profile may have been removed or the QR code is invalid.";
+
     }
 
 }
+
+
 
 // =====================================================
 // TEST FIREBASE AUTHENTICATION
@@ -1367,102 +2377,195 @@ function showProfileError() {
 
 if (auth) {
 
-    auth.onAuthStateChanged(function (user) {
+    auth.onAuthStateChanged(
+        function (user) {
 
-        if (user) {
+            if (user) {
 
-            console.log(
-                "Firebase Authentication working:",
-                user.email
-            );
+                console.log(
 
-        } else {
+                    "Firebase Authentication working:",
 
-            console.log(
-                "No user is currently signed in."
-            );
+                    user.email
+
+                );
+
+            }
+
+            else {
+
+                console.log(
+
+                    "No user is currently signed in."
+
+                );
+
+            }
 
         }
-
-    });
+    );
 
 }
+
+
+
 // =====================================================
 // 13. LOGIN
 // =====================================================
 
 const loginButton =
-    document.getElementById("loginButton");
 
-console.log("LOGIN SECTION LOADED");
-console.log("loginButton:", loginButton);
-console.log("auth:", auth);
+    document.getElementById(
+        "loginButton"
+    );
+
+
+
+console.log(
+    "LOGIN SECTION LOADED"
+);
+
+
+
+console.log(
+    "loginButton:",
+    loginButton
+);
+
+
+
+console.log(
+    "auth:",
+    auth
+);
+
+
 
 if (loginButton && auth) {
 
-    loginButton.addEventListener("click", async function () {
+    loginButton.addEventListener(
 
-        console.log("LOGIN BUTTON CLICKED");
+        "click",
 
-        const emailInput =
-            document.getElementById("loginEmail");
+        async function () {
 
-        const passwordInput =
-            document.getElementById("loginPassword");
-
-        const message =
-            document.getElementById("loginMessage");
-
-        const email =
-            emailInput.value.trim();
-
-        const password =
-            passwordInput.value;
-
-        if (!email || !password) {
-
-            message.textContent =
-                "Please enter email and password.";
-
-            return;
-        }
-
-        try {
-
-            message.textContent =
-                "Logging in...";
-
-            await auth.signInWithEmailAndPassword(
-                email,
-                password
+            console.log(
+                "LOGIN BUTTON CLICKED"
             );
 
-            message.textContent =
-                "Login successful!";
 
-            window.location.href =
-                "index.html";
 
-        } catch (error) {
+            const emailInput =
 
-            console.error(
-                "Login error:",
-                error
-            );
+                document.getElementById(
+                    "loginEmail"
+                );
 
-            message.textContent =
-                "Login failed: " +
-                error.message;
+
+
+            const passwordInput =
+
+                document.getElementById(
+                    "loginPassword"
+                );
+
+
+
+            const message =
+
+                document.getElementById(
+                    "loginMessage"
+                );
+
+
+
+            const email =
+
+                emailInput.value.trim();
+
+
+
+            const password =
+
+                passwordInput.value;
+
+
+
+            if (!email || !password) {
+
+                message.textContent =
+
+                    "Please enter email and password.";
+
+                return;
+
+            }
+
+
+
+            try {
+
+                message.textContent =
+                    "Logging in...";
+
+
+
+                await auth.signInWithEmailAndPassword(
+
+                    email,
+
+                    password
+
+                );
+
+
+
+                message.textContent =
+                    "Login successful!";
+
+
+
+                window.location.href =
+                    "index.html";
+
+            }
+
+            catch (error) {
+
+                console.error(
+
+                    "Login error:",
+
+                    error
+
+                );
+
+
+
+                message.textContent =
+
+                    "Login failed: " +
+
+                    error.message;
+
+            }
+
         }
 
-    });
+    );
 
-} else {
+}
+
+else {
 
     console.error(
+
         "LOGIN SETUP FAILED",
+
         loginButton,
+
         auth
+
     );
 
 }
