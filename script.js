@@ -460,7 +460,7 @@ async function loadProfile(id) {
 
         const snapshot =
             await database
-                .ref("users/" + id)
+                .ref("profiles/" + id)
                 .once("value");
 
         if (!snapshot.exists()) {
@@ -490,8 +490,6 @@ async function loadProfile(id) {
     }
 
 }
-
-
 // =====================================================
 // 6. DISPLAY PROFILE
 // =====================================================
