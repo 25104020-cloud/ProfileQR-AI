@@ -1655,54 +1655,145 @@ function displayProfile(
 
 
     // =================================================
-    // RESUME
-    // =================================================
+// RESUME
+// =================================================
 
-    const resumeLink =
-
-        document.getElementById(
-            "resumeLink"
-        );
-
+const resumeLink =
+    document.getElementById(
+        "resumeLink"
+    );
 
 
-    if (resumeLink) {
+if (resumeLink) {
 
-        if (profileData.resume) {
+    if (profileData.resume) {
 
-            resumeLink.href =
-                profileData.resume;
+        resumeLink.href =
+            "#";
 
+        resumeLink.target =
+            "_blank";
 
+        resumeLink.rel =
+            "noopener noreferrer";
 
-            resumeLink.target =
-                "_blank";
+        resumeLink.textContent =
+            "📄 View Resume";
 
-
-
-            resumeLink.rel =
-                "noopener noreferrer";
-
-
-
-            resumeLink.textContent =
-                "📄 View Resume";
+        resumeLink.style.display =
+            "block";
 
 
+        // Track resume views and open resume
+        resumeLink.onclick =
+            async function (event) {
 
-            resumeLink.style.display =
-                "block";
+                event.preventDefault();
 
-        }
+                try {
 
-        else {
+                    // =============================================
+                    // INCREASE RESUME VIEW COUNT
+                    // =============================================
 
-            resumeLink.style.display =
-                "none";
+                    if (database) {
 
-        }
+                        await database
+                            .ref(
+                                "analytics/" +
+                                id +
+                                "/resumeViews"
+                            )
+                            .transaction(
+                                function (currentValue) {
+
+                                    return (
+                                        currentValue || 0
+                                    ) + 1;
+
+                                }
+                            );
+
+                    }
+
+
+                    // =============================================
+                    // CONVERT BASE64 PDF TO BLOB
+                    // =============================================
+
+                    const response =
+                        await fetch(
+                            profileData.resume
+                        );
+
+                    const blob =
+                        await response.blob();
+
+
+                    // =============================================
+                    // CREATE TEMPORARY URL
+                    // =============================================
+
+                    const resumeURL =
+                        URL.createObjectURL(
+                            blob
+                        );
+
+
+                    // =============================================
+                    // OPEN RESUME
+                    // =============================================
+
+                    window.open(
+                        resumeURL,
+                        "_blank"
+                    );
+
+
+                    // =============================================
+                    // REFRESH ANALYTICS
+                    // =============================================
+
+                    loadAnalytics(id);
+
+
+                    // Remove temporary URL after 1 minute
+                    setTimeout(
+                        function () {
+
+                            URL.revokeObjectURL(
+                                resumeURL
+                            );
+
+                        },
+                        60000
+                    );
+
+                } catch (error) {
+
+                    console.error(
+                        "Resume opening error:",
+                        error
+                    );
+
+                    alert(
+                        "Unable to open the resume. Please try again."
+                    );
+
+                }
+
+            };
 
     }
+
+    else {
+
+        resumeLink.style.display =
+            "none";
+
+    }
+
+}
 
 
 
