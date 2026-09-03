@@ -3228,8 +3228,10 @@ if (auth) {
                             );
 
 
-                    const profiles =
-                        snapshot.val();
+                    const profiles = snapshot.val();
+
+console.log("MY PROFILE SEARCH RESULT:", profiles);
+console.log("CURRENT USER UID:", user.uid);
 
 
                     if (profiles) {
