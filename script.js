@@ -3234,19 +3234,20 @@ if (auth) {
 
                     if (profiles) {
 
-                        const profileId =
-                            Object.keys(
-                                profiles
-                            )[0];
+    const profileId =
+        Object.keys(profiles)[0];
 
+    myProfileButton.href =
+        "profile.html?id=" +
+        encodeURIComponent(profileId);
 
-                        myProfileButton.href =
-                            "profile.html?id=" +
-                            encodeURIComponent(
-                                profileId
-                            );
+} else {
 
-                    }
+    // User has no profile yet
+    myProfileButton.href =
+        "create-profile.html";
+
+}
 
                 }
 
