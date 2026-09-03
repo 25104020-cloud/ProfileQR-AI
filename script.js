@@ -2944,10 +2944,15 @@ else {
 // =====================================================
 function handleCreateProfile() {
 
+    console.log(
+        "CREATE PROFILE BUTTON CLICKED"
+    );
+
+
     if (!auth) {
 
         alert(
-            "Firebase Authentication is not available."
+            "Authentication system not loaded."
         );
 
         return;
@@ -2955,11 +2960,13 @@ function handleCreateProfile() {
     }
 
 
-    const user =
-        auth.currentUser;
+    if (auth.currentUser) {
 
+        console.log(
+            "User logged in:",
+            auth.currentUser.email
+        );
 
-    if (user) {
 
         window.location.href =
             "create-profile.html";
@@ -2967,6 +2974,11 @@ function handleCreateProfile() {
     }
 
     else {
+
+        console.log(
+            "User not logged in. Redirecting to login."
+        );
+
 
         window.location.href =
             "login.html";
