@@ -3149,3 +3149,176 @@ if (registerButton && auth) {
     );
 
 }
+// =====================================================
+// MY PROFILE + LOGOUT
+// =====================================================
+
+const myProfileButton =
+    document.getElementById(
+        "myProfileButton"
+    );
+
+
+const logoutButton =
+    document.getElementById(
+        "logoutButton"
+    );
+
+
+// Check login status
+
+if (auth) {
+
+    auth.onAuthStateChanged(
+        async function (user) {
+
+            // USER LOGGED IN
+
+            if (user) {
+
+                // Show buttons
+
+                if (myProfileButton) {
+
+                    myProfileButton.style.display =
+                        "inline-block";
+
+                }
+
+
+                if (logoutButton) {
+
+                    logoutButton.style.display =
+                        "inline-block";
+
+                }
+
+
+                // Find user's profile
+
+                if (
+                    database &&
+                    myProfileButton
+                ) {
+
+                    const snapshot =
+
+                        await database
+
+                            .ref("profiles")
+
+                            .orderByChild(
+                                "ownerUid"
+                            )
+
+                            .equalTo(
+                                user.uid
+                            )
+
+                            .once(
+                                "value"
+                            );
+
+
+                    const profiles =
+                        snapshot.val();
+
+
+                    if (profiles) {
+
+                        const profileId =
+                            Object.keys(
+                                profiles
+                            )[0];
+
+
+                        myProfileButton.href =
+                            "profile.html?id=" +
+                            encodeURIComponent(
+                                profileId
+                            );
+
+                    }
+
+                }
+
+            }
+
+
+            // USER LOGGED OUT
+
+            else {
+
+                if (myProfileButton) {
+
+                    myProfileButton.style.display =
+                        "none";
+
+                }
+
+
+                if (logoutButton) {
+
+                    logoutButton.style.display =
+                        "none";
+
+                }
+
+            }
+
+        }
+    );
+
+}
+
+
+// =====================================================
+// LOGOUT BUTTON
+// =====================================================
+
+if (logoutButton && auth) {
+
+    logoutButton.addEventListener(
+
+        "click",
+
+        async function (event) {
+
+            event.preventDefault();
+
+
+            try {
+
+                await auth.signOut();
+
+
+                alert(
+                    "Logged out successfully!"
+                );
+
+
+                window.location.href =
+                    "index.html";
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Logout error:",
+                    error
+                );
+
+
+                alert(
+                    "Logout failed: " +
+                    error.message
+                );
+
+            }
+
+        }
+
+    );
+
+}
