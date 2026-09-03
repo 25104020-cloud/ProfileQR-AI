@@ -5,129 +5,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ProfileQR AI | Smart Digital Identity</title>
+    <title>Login | ProfileQR AI</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- Navigation Bar -->
     <nav class="navbar">
+
         <div class="logo">
             Profile<span>QR</span> AI
         </div>
 
-        <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#features">Features</a>
-            <a href="#how-it-works">How It Works</a>
-        </div>
+        <a href="index.html" class="nav-button">
+            ← Back to Home
+        </a>
 
-        <a href="#" id="createProfileNav" class="nav-button">
-    Create Profile
-</a>
-
-<a
-    href="#"
-    id="myProfileButton"
-    class="nav-button"
-    style="display: none;"
->
-    My Profile
-</a>
-
-<a
-    href="#"
-    id="logoutButton"
-    class="nav-button"
-    style="display: none;"
->
-    Logout
-</a>
     </nav>
 
 
-    <!-- Hero Section -->
-    <section class="hero">
+    <section class="digital-profile">
 
-        <div class="hero-content">
+        <div class="profile-card">
 
-            <p class="badge">🚀 YOUR SMART DIGITAL IDENTITY</p>
+            <h1>Welcome to ProfileQR AI</h1>
 
-            <h1>
-                One QR Code.<br>
-                <span>Your Complete Professional Identity.</span>
-            </h1>
-
-            <p class="hero-text">
-                Create your professional digital profile, showcase your
-                skills, projects, certificates and achievements — all
-                accessible with a single QR code.
+            <p>
+                Login or create a new account to manage
+                your professional digital profile.
             </p>
 
-            <div class="hero-buttons">
-               <a href="#" id="createProfileHero" class="primary-btn">
-    Create My Profile
-</a>
-                <button class="secondary-btn">See Demo</button>
-            </div>
 
-        </div>
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="Enter your email"
+            >
 
 
-        <!-- QR Card -->
-        <div class="qr-card">
-
-            <div class="profile-circle">👤</div>
-
-            <h2>Your Digital Profile</h2>
-
-            <p>Scan to discover more</p>
-
-           <div id="homeQRCode"></div>
-
-        </div>
-
-    </section>
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Enter your password"
+            >
 
 
-    <!-- Features Section -->
-    <section class="features" id="features">
+            <button
+                type="button"
+                id="loginButton"
+                class="download-btn"
+            >
+                Login
+            </button>
 
-        <h2>Everything About You. In One Scan.</h2>
 
-        <div class="feature-container">
+            <button
+                type="button"
+                id="registerButton"
+                class="download-btn"
+            >
+                Create New Account
+            </button>
 
-            <div class="feature-card">
-                <div class="icon">👤</div>
-                <h3>Professional Profile</h3>
-                <p>Showcase your education, skills and achievements.</p>
-            </div>
 
-            <div class="feature-card">
-                <div class="icon">🤖</div>
-                <h3>AI Assistance</h3>
-                <p>Create professional bios and project descriptions.</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="icon">📱</div>
-                <h3>Smart QR Code</h3>
-                <p>Share your complete identity with one simple scan.</p>
-            </div>
+            <p id="loginMessage"></p>
 
         </div>
 
     </section>
 
+
+    <!-- Firebase -->
 
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
-<script src="script.js"></script>
+
+    <!-- Main JavaScript -->
+
+    <script src="script.js"></script>
+
 </body>
+
 </html>
