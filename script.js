@@ -3024,3 +3024,128 @@ if (createProfileHero) {
     );
 
 }
+// =====================================================
+// 14. REGISTER NEW USER
+// =====================================================
+
+const registerButton =
+    document.getElementById(
+        "registerButton"
+    );
+
+
+if (registerButton && auth) {
+
+    registerButton.addEventListener(
+
+        "click",
+
+        async function () {
+
+            const emailInput =
+                document.getElementById(
+                    "loginEmail"
+                );
+
+
+            const passwordInput =
+                document.getElementById(
+                    "loginPassword"
+                );
+
+
+            const message =
+                document.getElementById(
+                    "loginMessage"
+                );
+
+
+            const email =
+                emailInput.value.trim();
+
+
+            const password =
+                passwordInput.value;
+
+
+            // Check empty fields
+
+            if (!email || !password) {
+
+                message.textContent =
+                    "Please enter email and password.";
+
+                return;
+
+            }
+
+
+            // Password validation
+
+            if (password.length < 6) {
+
+                message.textContent =
+                    "Password must be at least 6 characters.";
+
+                return;
+
+            }
+
+
+            try {
+
+                message.textContent =
+                    "Creating your account...";
+
+
+                await auth
+                    .createUserWithEmailAndPassword(
+
+                        email,
+
+                        password
+
+                    );
+
+
+                message.textContent =
+                    "Account created successfully!";
+
+
+                // Firebase automatically logs
+                // the new user in
+
+                setTimeout(
+
+                    function () {
+
+                        window.location.href =
+                            "create-profile.html";
+
+                    },
+
+                    1000
+
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Registration error:",
+                    error
+                );
+
+
+                message.textContent =
+                    "Registration failed: " +
+                    error.message;
+
+            }
+
+        }
+
+    );
+
+}
