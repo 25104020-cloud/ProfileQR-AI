@@ -579,73 +579,6 @@ if (photoFile && photoFile.size > 500 * 1024) {
             try {
 
                 // =============================================
-                // CONVERT PHOTO TO BASE64
-                // =============================================
-
-                let photoData =
-                    "";
-
-
-
-                if (photoFile) {
-
-                    photoData =
-                        await fileToBase64(
-                            photoFile
-                        );
-
-                }
-
-
-
-                // =============================================
-                // CONVERT RESUME TO BASE64
-                // =============================================
-
-                let resumeData =
-                    "";
-
-
-
-                if (resumeFile) {
-
-                    if (
-                        resumeFile.size > 
-1 * 1024 * 1024
-                    ) {
-
-                        alert(
-                            "Resume is too large. Please use a PDF smaller than 1MB."
-                        );
-
-
-
-                        if (submitButton) {
-
-                            submitButton.disabled =
-                                false;
-
-                            submitButton.textContent =
-                                "Generate My Profile →";
-
-                        }
-
-                        return;
-
-                    }
-
-
-
-                    resumeData =
-                        await fileToBase64(
-                            resumeFile
-                        );
-
-                }
-
-
-
-                // =============================================
 // CHECK CREATE OR EDIT MODE
 // =============================================
 
@@ -660,8 +593,14 @@ const editProfileId =
 let profileReference;
 let profileId;
 
+let existingProfileData =
+    null;
 
+
+// =============================================
 // EDIT EXISTING PROFILE
+// =============================================
+
 if (editProfileId) {
 
     profileId =
@@ -673,9 +612,43 @@ if (editProfileId) {
             profileId
         );
 
+
+    // Load existing profile data
+    const snapshot =
+        await profileReference.once(
+            "value"
+        );
+
+    existingProfileData =
+        snapshot.val();
+
+
+    // Security check
+    if (
+        !existingProfileData ||
+        !auth.currentUser ||
+        existingProfileData.ownerUid !==
+        auth.currentUser.uid
+    ) {
+
+        alert(
+            "You are not allowed to edit this profile."
+        );
+
+        window.location.href =
+            "index.html";
+
+        return;
+
+    }
+
 }
 
+
+// =============================================
 // CREATE NEW PROFILE
+// =============================================
+
 else {
 
     profileReference =
@@ -690,86 +663,178 @@ else {
 
 
 
+// =============================================
+// CONVERT PHOTO TO BASE64
+// =============================================
+
+// Keep old photo when editing
+let photoData =
+    existingProfileData &&
+    existingProfileData.photo
+        ? existingProfileData.photo
+        : "";
+
+
+if (photoFile) {
+
+    photoData =
+        await fileToBase64(
+            photoFile
+        );
+
+}
+
+
+
+// =============================================
+// CONVERT RESUME TO BASE64
+// =============================================
+
+// Keep old resume when editing
+let resumeData =
+    existingProfileData &&
+    existingProfileData.resume
+        ? existingProfileData.resume
+        : "";
+
+
+if (resumeFile) {
+
+    if (
+        resumeFile.size >
+        1 * 1024 * 1024
+    ) {
+
+        alert(
+            "Resume is too large. Please use a PDF smaller than 1MB."
+        );
+
+
+        if (submitButton) {
+
+            submitButton.disabled =
+                false;
+
+            submitButton.textContent =
+                editProfileId
+                    ? "Update My Profile →"
+                    : "Generate My Profile →";
+
+        }
+
+        return;
+
+    }
+
+
+    resumeData =
+        await fileToBase64(
+            resumeFile
+        );
+
+}
+
                 // =============================================
-                // PROFILE OBJECT
-                // =============================================
+// PROFILE OBJECT
+// =============================================
 
-                const profileData = {
+const profileData = {
 
-                    // Profile owner
+    // =============================================
+    // KEEP ORIGINAL PROFILE OWNER
+    // =============================================
 
-                    ownerUid:
+    ownerUid:
 
-                        auth &&
-                        auth.currentUser
+        existingProfileData
+            ? existingProfileData.ownerUid
+            : (
+                auth &&
+                auth.currentUser
 
-                            ? auth.currentUser.uid
+                    ? auth.currentUser.uid
 
-                            : null,
-
-
-                    fullName:
-                        fullName,
-
-
-                    title:
-                        title,
+                    : null
+            ),
 
 
-                    bio:
-                        bio,
+    fullName:
+        fullName,
 
 
-                    email:
-                        email,
+    title:
+        title,
 
 
-                    phone:
-                        phone,
+    bio:
+        bio,
 
 
-                    education:
-                        education,
+    email:
+        email,
 
 
-                    skills:
-                        skills,
+    phone:
+        phone,
 
 
-                    projects:
-                        projects,
+    education:
+        education,
 
 
-                    achievements:
-                        achievements,
+    skills:
+        skills,
 
 
-                    linkedin:
-                        linkedin,
+    projects:
+        projects,
 
 
-                    github:
-                        github,
+    achievements:
+        achievements,
 
 
-                    photo:
-                        photoData,
+    linkedin:
+        linkedin,
 
 
-                    resume:
-    resumeData,
+    github:
+        github,
 
 
-createdAt:
-    new Date()
-        .toISOString(),
+    photo:
+        photoData,
 
-updatedAt:
-    new Date()
-        .toISOString()
 
-                };
+    resume:
+        resumeData,
 
+
+    // =============================================
+    // KEEP ORIGINAL CREATION DATE
+    // =============================================
+
+    createdAt:
+
+        existingProfileData &&
+        existingProfileData.createdAt
+
+            ? existingProfileData.createdAt
+
+            : new Date()
+                .toISOString(),
+
+
+    // =============================================
+    // UPDATE LAST MODIFIED DATE
+    // =============================================
+
+    updatedAt:
+
+        new Date()
+            .toISOString()
+
+};
 
 
                 // =============================================
@@ -1316,46 +1381,55 @@ function displayProfile(
 
 
     // =================================================
-    // PROFILE OWNER
-    // SHOW EDIT BUTTON ONLY TO OWNER
-    // =================================================
+// PROFILE OWNER
+// SHOW EDIT BUTTON ONLY TO OWNER
+// =================================================
 
-    const editProfileButton =
-
-        document.getElementById(
-            "editProfileButton"
-        );
-
+const editProfileButton =
+    document.getElementById(
+        "editProfileButton"
+    );
 
 
-    if (editProfileButton) {
 
-        if (
+if (editProfileButton) {
 
-            auth &&
+    auth.onAuthStateChanged(
+        function (user) {
 
-            auth.currentUser &&
+            if (
 
-            profileData.ownerUid &&
+                user &&
 
-            auth.currentUser.uid ===
-            profileData.ownerUid
+                profileData.ownerUid &&
 
-        ) {
+                user.uid ===
+                profileData.ownerUid
 
-            editProfileButton.style.display =
-                "block";
+            ) {
+
+                editProfileButton.style.display =
+                    "block";
+
+
+                editProfileButton.href =
+    "create-profile.html?edit=" +
+    encodeURIComponent(
+        id
+    );
+            }
+
+            else {
+
+                editProfileButton.style.display =
+                    "none";
+
+            }
 
         }
+    );
 
-        else {
-
-            editProfileButton.style.display =
-                "none";
-
-        }
-
-    }
+}
 
 
 
