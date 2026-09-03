@@ -3330,3 +3330,95 @@ if (logoutButton && auth) {
     );
 
 }
+// =====================================================
+// CREATE PROFILE BUTTON - DIRECT TEST
+// =====================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const heroButton =
+            document.getElementById(
+                "createProfileHero"
+            );
+
+        const navButton =
+            document.getElementById(
+                "createProfileNav"
+            );
+
+
+        if (heroButton) {
+
+            heroButton.addEventListener(
+                "click",
+                function (event) {
+
+                    event.preventDefault();
+
+                    console.log(
+                        "HERO BUTTON CLICKED"
+                    );
+
+
+                    if (
+                        auth &&
+                        auth.currentUser
+                    ) {
+
+                        window.location.href =
+                            "create-profile.html";
+
+                    }
+
+                    else {
+
+                        window.location.href =
+                            "login.html";
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        if (navButton) {
+
+            navButton.addEventListener(
+                "click",
+                function (event) {
+
+                    event.preventDefault();
+
+                    console.log(
+                        "NAV BUTTON CLICKED"
+                    );
+
+
+                    if (
+                        auth &&
+                        auth.currentUser
+                    ) {
+
+                        window.location.href =
+                            "create-profile.html";
+
+                    }
+
+                    else {
+
+                        window.location.href =
+                            "login.html";
+
+                    }
+
+                }
+            );
+
+        }
+
+    }
+);
