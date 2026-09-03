@@ -3162,15 +3162,10 @@ if (registerButton && auth) {
 // =====================================================
 
 const myProfileButton =
-    document.getElementById(
-        "myProfileButton"
-    );
-
+    document.getElementById("myProfileButton");
 
 const logoutButton =
-    document.getElementById(
-        "logoutButton"
-    );
+    document.getElementById("logoutButton");
 
 
 // Check login status
@@ -3184,7 +3179,11 @@ if (auth) {
 
             if (user) {
 
-                // Show buttons
+                console.log("User signed in:", user.email);
+                console.log("User UID:", user.uid);
+
+
+                // Show My Profile button
 
                 if (myProfileButton) {
 
@@ -3194,6 +3193,8 @@ if (auth) {
                 }
 
 
+                // Show Logout button
+
                 if (logoutButton) {
 
                     logoutButton.style.display =
@@ -3202,54 +3203,70 @@ if (auth) {
                 }
 
 
-                // Find user's profile
+                // Get profile ID directly from users
 
                 if (
                     database &&
                     myProfileButton
                 ) {
 
-                    const snapshot =
+                    try {
 
-                        await database
+                        const snapshot =
 
-                            .ref("profiles")
+                            await database
 
-                            .orderByChild(
-                                "ownerUid"
-                            )
+                                .ref(
+                                    "users/" +
+                                    user.uid +
+                                    "/profileId"
+                                )
 
-                            .equalTo(
-                                user.uid
-                            )
-
-                            .once(
-                                "value"
-                            );
+                                .once("value");
 
 
-                    const profiles = snapshot.val();
-
-console.log("MY PROFILE SEARCH RESULT:", profiles);
-console.log("CURRENT USER UID:", user.uid);
+                        const profileId =
+                            snapshot.val();
 
 
-                    if (profiles) {
+                        console.log(
+                            "PROFILE ID FROM USER:",
+                            profileId
+                        );
 
-    const profileId =
-        Object.keys(profiles)[0];
 
-    myProfileButton.href =
-        "profile.html?id=" +
-        encodeURIComponent(profileId);
+                        // Profile exists
 
-} else {
+                        if (profileId) {
 
-    // User has no profile yet
-    myProfileButton.href =
-        "create-profile.html";
+                            myProfileButton.href =
+                                "profile.html?id=" +
+                                encodeURIComponent(
+                                    profileId
+                                );
 
-}
+                        }
+
+
+                        // No profile exists
+
+                        else {
+
+                            myProfileButton.href =
+                                "create-profile.html";
+
+                        }
+
+                    }
+
+                    catch (error) {
+
+                        console.error(
+                            "Error loading profile:",
+                            error
+                        );
+
+                    }
 
                 }
 
@@ -3259,6 +3276,9 @@ console.log("CURRENT USER UID:", user.uid);
             // USER LOGGED OUT
 
             else {
+
+                console.log("No user logged in");
+
 
                 if (myProfileButton) {
 
@@ -3278,6 +3298,7 @@ console.log("CURRENT USER UID:", user.uid);
             }
 
         }
+
     );
 
 }
@@ -3287,46 +3308,34 @@ console.log("CURRENT USER UID:", user.uid);
 // LOGOUT BUTTON
 // =====================================================
 
-if (logoutButton && auth) {
+if (logoutButton) {
 
     logoutButton.addEventListener(
-
         "click",
 
-        async function (event) {
+        function () {
 
-            event.preventDefault();
+            auth.signOut()
 
+                .then(function () {
 
-            try {
+                    console.log(
+                        "User logged out successfully"
+                    );
 
-                await auth.signOut();
+                    window.location.href =
+                        "index.html";
 
+                })
 
-                alert(
-                    "Logged out successfully!"
-                );
+                .catch(function (error) {
 
+                    console.error(
+                        "Logout error:",
+                        error
+                    );
 
-                window.location.href =
-                    "index.html";
-
-            }
-
-            catch (error) {
-
-                console.error(
-                    "Logout error:",
-                    error
-                );
-
-
-                alert(
-                    "Logout failed: " +
-                    error.message
-                );
-
-            }
+                });
 
         }
 
