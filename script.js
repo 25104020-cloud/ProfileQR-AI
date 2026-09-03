@@ -2942,40 +2942,36 @@ else {
 // =====================================================
 // CREATE PROFILE BUTTON LOGIN CHECK
 // =====================================================
-
 function handleCreateProfile() {
 
     if (!auth) {
 
-        window.location.href =
-            "login.html";
+        alert(
+            "Firebase Authentication is not available."
+        );
 
         return;
 
     }
 
 
-    auth.onAuthStateChanged(
-        function (user) {
+    const user =
+        auth.currentUser;
 
-            if (user) {
 
-                // User is logged in
-                window.location.href =
-                    "create-profile.html";
+    if (user) {
 
-            }
+        window.location.href =
+            "create-profile.html";
 
-            else {
+    }
 
-                // User is not logged in
-                window.location.href =
-                    "login.html";
+    else {
 
-            }
+        window.location.href =
+            "login.html";
 
-        }
-    );
+    }
 
 }
 
