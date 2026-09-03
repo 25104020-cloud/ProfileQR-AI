@@ -2896,7 +2896,7 @@ if (loginButton && auth) {
 
 
                 window.location.href =
-                    "index.html";
+    "create-profile.html";
 
             }
 
@@ -2936,6 +2936,91 @@ else {
 
         auth
 
+    );
+
+}
+// =====================================================
+// CREATE PROFILE BUTTON LOGIN CHECK
+// =====================================================
+
+function handleCreateProfile() {
+
+    if (!auth) {
+
+        window.location.href =
+            "login.html";
+
+        return;
+
+    }
+
+
+    auth.onAuthStateChanged(
+        function (user) {
+
+            if (user) {
+
+                // User is logged in
+                window.location.href =
+                    "create-profile.html";
+
+            }
+
+            else {
+
+                // User is not logged in
+                window.location.href =
+                    "login.html";
+
+            }
+
+        }
+    );
+
+}
+
+
+// Navigation button
+const createProfileNav =
+    document.getElementById(
+        "createProfileNav"
+    );
+
+
+if (createProfileNav) {
+
+    createProfileNav.addEventListener(
+        "click",
+        function (event) {
+
+            event.preventDefault();
+
+            handleCreateProfile();
+
+        }
+    );
+
+}
+
+
+// Hero button
+const createProfileHero =
+    document.getElementById(
+        "createProfileHero"
+    );
+
+
+if (createProfileHero) {
+
+    createProfileHero.addEventListener(
+        "click",
+        function (event) {
+
+            event.preventDefault();
+
+            handleCreateProfile();
+
+        }
     );
 
 }
