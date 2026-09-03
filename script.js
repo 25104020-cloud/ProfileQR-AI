@@ -184,6 +184,169 @@ const profileForm =
 
 
 if (profileForm) {
+    // =====================================================
+// EDIT PROFILE MODE
+// =====================================================
+
+const urlParams =
+    new URLSearchParams(
+        window.location.search
+    );
+
+const editProfileId =
+    urlParams.get("edit");
+
+
+if (editProfileId) {
+
+    // Change button text
+    const submitButton =
+        document.querySelector(
+            "#profileForm button[type='submit']"
+        );
+
+    if (submitButton) {
+
+        submitButton.textContent =
+            "Update My Profile →";
+
+    }
+
+
+    // Load existing profile
+    database
+        .ref(
+            "profiles/" +
+            editProfileId
+        )
+        .once("value")
+        .then(
+            function (snapshot) {
+
+                const profileData =
+                    snapshot.val();
+
+
+                if (!profileData) {
+
+                    alert(
+                        "Profile not found."
+                    );
+
+                    return;
+
+                }
+
+
+                // SECURITY CHECK
+                if (
+                    !auth.currentUser ||
+                    auth.currentUser.uid !==
+                    profileData.ownerUid
+                ) {
+
+                    alert(
+                        "You are not allowed to edit this profile."
+                    );
+
+                    window.location.href =
+                        "index.html";
+
+                    return;
+
+                }
+
+
+                // LOAD FORM DATA
+
+                document.getElementById(
+                    "fullName"
+                ).value =
+                    profileData.fullName || "";
+
+
+                document.getElementById(
+                    "title"
+                ).value =
+                    profileData.title || "";
+
+
+                document.getElementById(
+                    "bio"
+                ).value =
+                    profileData.bio || "";
+
+
+                document.getElementById(
+                    "email"
+                ).value =
+                    profileData.email || "";
+
+
+                document.getElementById(
+                    "phone"
+                ).value =
+                    profileData.phone || "";
+
+
+                document.getElementById(
+                    "education"
+                ).value =
+                    profileData.education || "";
+
+
+                document.getElementById(
+                    "skills"
+                ).value =
+                    Array.isArray(
+                        profileData.skills
+                    )
+                        ? profileData.skills.join(", ")
+                        : profileData.skills || "";
+
+
+                document.getElementById(
+                    "projects"
+                ).value =
+                    profileData.projects || "";
+
+
+                document.getElementById(
+                    "achievements"
+                ).value =
+                    profileData.achievements || "";
+
+
+                document.getElementById(
+                    "linkedin"
+                ).value =
+                    profileData.linkedin || "";
+
+
+                document.getElementById(
+                    "github"
+                ).value =
+                    profileData.github || "";
+
+            }
+        )
+
+        .catch(
+            function (error) {
+
+                console.error(
+                    "Error loading profile:",
+                    error
+                );
+
+                alert(
+                    "Unable to load profile."
+                );
+
+            }
+        );
+
+}
 
     profileForm.addEventListener(
 
@@ -483,18 +646,47 @@ if (photoFile && photoFile.size > 500 * 1024) {
 
 
                 // =============================================
-                // CREATE FIREBASE UNIQUE PROFILE ID
-                // =============================================
+// CHECK CREATE OR EDIT MODE
+// =============================================
 
-                const profileReference =
-                    database
-                        .ref("profiles")
-                        .push();
+const urlParams =
+    new URLSearchParams(
+        window.location.search
+    );
+
+const editProfileId =
+    urlParams.get("edit");
+
+let profileReference;
+let profileId;
 
 
+// EDIT EXISTING PROFILE
+if (editProfileId) {
 
-                const profileId =
-                    profileReference.key;
+    profileId =
+        editProfileId;
+
+    profileReference =
+        database.ref(
+            "profiles/" +
+            profileId
+        );
+
+}
+
+// CREATE NEW PROFILE
+else {
+
+    profileReference =
+        database
+            .ref("profiles")
+            .push();
+
+    profileId =
+        profileReference.key;
+
+}
 
 
 
@@ -565,12 +757,16 @@ if (photoFile && photoFile.size > 500 * 1024) {
 
 
                     resume:
-                        resumeData,
+    resumeData,
 
 
-                    createdAt:
-                        new Date()
-                            .toISOString()
+createdAt:
+    new Date()
+        .toISOString(),
+
+updatedAt:
+    new Date()
+        .toISOString()
 
                 };
 
