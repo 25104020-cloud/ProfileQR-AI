@@ -827,3 +827,52 @@ body {
     }
 
 }
+/* =========================================
+   FINAL UI POLISH
+========================================= */
+
+/* Smooth transitions */
+
+button,
+.nav-button,
+.hero-buttons a {
+    transition:
+        all 0.3s ease;
+}
+
+
+/* Button hover */
+
+button:hover,
+.nav-button:hover,
+.hero-buttons a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+.feature-card {
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow:
+        0 15px 35px
+        rgba(0, 0, 0, 0.12);
+}
+.step-card {
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.step-card:hover {
+    transform: translateY(-6px);
+    box-shadow:
+        0 12px 30px
+        rgba(0, 0, 0, 0.1);
+}
+html {
+    scroll-behavior: smooth;
+}
