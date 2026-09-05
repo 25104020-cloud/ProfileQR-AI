@@ -782,3 +782,20 @@ body {
     }
 
 }
+/* =========================================
+   MOBILE NAVIGATION BUTTON FIX
+========================================= */
+
+@media (max-width: 600px) {
+
+    #createProfileNav,
+    #myProfileButton,
+    #logoutButton {
+
+        font-size: 12px;
+        padding: 8px 10px;
+        min-width: auto;
+
+    }
+
+}
