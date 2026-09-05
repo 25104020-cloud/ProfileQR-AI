@@ -1523,3 +1523,58 @@ button:active,
         scale(1.12);
 
 }
+/* =========================================
+   STEP 3: SCROLL REVEAL EFFECT
+========================================= */
+
+.reveal {
+
+    opacity: 0;
+
+    transform:
+
+        translateY(40px);
+
+    transition:
+
+        opacity 0.7s ease,
+        transform 0.7s ease;
+
+}
+
+
+.reveal.reveal-visible {
+
+    opacity: 1;
+
+    transform:
+
+        translateY(0);
+
+}
+
+
+/* Smooth stagger effect */
+
+.feature-card:nth-child(2),
+.step-card:nth-child(2) {
+
+    transition-delay: 0.1s;
+
+}
+
+
+.feature-card:nth-child(3),
+.step-card:nth-child(3) {
+
+    transition-delay: 0.2s;
+
+}
+
+
+.feature-card:nth-child(4),
+.step-card:nth-child(4) {
+
+    transition-delay: 0.3s;
+
+}
