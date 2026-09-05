@@ -1364,3 +1364,162 @@ button:active,
     }
 
 }
+/* =========================================
+   STEP 3: PREMIUM FEATURE CARDS
+========================================= */
+
+/* Feature cards */
+
+.feature-card {
+
+    position: relative;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
+
+}
+
+
+/* Premium top glow line */
+
+.feature-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 3px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #38bdf8,
+            transparent
+        );
+
+    transform:
+        scaleX(0);
+
+    transition:
+        transform 0.4s ease;
+
+}
+
+
+/* Feature card hover */
+
+.feature-card:hover {
+
+    transform:
+        translateY(-10px);
+
+    border-color:
+        rgba(56, 189, 248, 0.5);
+
+    box-shadow:
+
+        0 20px 45px
+        rgba(0, 0, 0, 0.25),
+
+        0 0 25px
+        rgba(56, 189, 248, 0.12);
+
+}
+
+
+/* Show glow line */
+
+.feature-card:hover::before {
+
+    transform:
+        scaleX(1);
+
+}
+
+
+/* =========================================
+   STEP CARDS
+========================================= */
+
+.step-card {
+
+    position: relative;
+
+    transition:
+
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+
+}
+
+
+/* Step card hover */
+
+.step-card:hover {
+
+    transform:
+        translateY(-8px);
+
+    box-shadow:
+
+        0 18px 40px
+        rgba(0, 0, 0, 0.25);
+
+}
+
+
+/* =========================================
+   ICON ANIMATION
+========================================= */
+
+.feature-icon {
+
+    transition:
+
+        transform 0.35s ease;
+
+}
+
+
+/* Rotate + scale icon */
+
+.feature-card:hover .feature-icon {
+
+    transform:
+
+        rotate(8deg)
+        scale(1.12);
+
+}
+
+
+/* =========================================
+   STEP NUMBER EFFECT
+========================================= */
+
+.step-number {
+
+    transition:
+
+        transform 0.3s ease,
+        background 0.3s ease;
+
+}
+
+
+.step-card:hover .step-number {
+
+    transform:
+
+        scale(1.12);
+
+}
