@@ -748,7 +748,6 @@ const profileData = {
     ? existingProfileData.ownerUid
     : auth.currentUser.uid,
 
-
     fullName:
         fullName,
 
@@ -3159,19 +3158,26 @@ const logoutButton =
     document.getElementById("logoutButton");
 
 
-// Check login status
+// =============================================
+// CHECK LOGIN STATUS
+// =============================================
 
 if (auth) {
 
     auth.onAuthStateChanged(
-        async function (user) {
-
-            // USER LOGGED IN
+        function (user) {
 
             if (user) {
 
-                console.log("User signed in:", user.email);
-                console.log("User UID:", user.uid);
+                console.log(
+                    "User signed in:",
+                    user.email
+                );
+
+                console.log(
+                    "User UID:",
+                    user.uid
+                );
 
 
                 // Show My Profile button
@@ -3193,83 +3199,16 @@ if (auth) {
 
                 }
 
-
-                // Get profile ID directly from users
-
-                if (
-                    database &&
-                    myProfileButton
-                ) {
-
-                    try {
-
-                        const snapshot =
-
-                            await database
-
-                                .ref(
-                                    "users/" +
-                                    user.uid +
-                                    "/profileId"
-                                )
-
-                                .once("value");
-
-
-                        const profileId =
-                            snapshot.val();
-
-
-                        console.log(
-                            "PROFILE ID FROM USER:",
-                            profileId
-                        );
-
-
-                        // Profile exists
-
-                        if (profileId) {
-
-                            myProfileButton.href =
-                                "profile.html?id=" +
-                                encodeURIComponent(
-                                    profileId
-                                );
-
-                        }
-
-
-                        // No profile exists
-
-                        else {
-
-                            myProfileButton.href =
-                                "create-profile.html";
-
-                        }
-
-                    }
-
-                    catch (error) {
-
-                        console.error(
-                            "Error loading profile:",
-                            error
-                        );
-
-                    }
-
-                }
-
             }
-
-
-            // USER LOGGED OUT
 
             else {
 
-                console.log("No user logged in");
+                console.log(
+                    "No user logged in"
+                );
 
+
+                // Hide My Profile
 
                 if (myProfileButton) {
 
@@ -3279,12 +3218,190 @@ if (auth) {
                 }
 
 
+                // Hide Logout
+
                 if (logoutButton) {
 
                     logoutButton.style.display =
                         "none";
 
                 }
+
+            }
+
+        }
+
+    );
+
+}
+
+
+// =============================================
+// MY PROFILE BUTTON
+// =============================================
+
+if (myProfileButton) {
+
+    myProfileButton.addEventListener(
+
+        "click",
+
+        async function (event) {
+
+            event.preventDefault();
+
+
+            const user =
+                auth.currentUser;
+
+
+            if (!user) {
+
+                alert(
+                    "Please login first."
+                );
+
+                window.location.href =
+                    "login.html";
+
+                return;
+
+            }
+
+
+            try {
+
+                console.log(
+                    "Searching profile for UID:",
+                    user.uid
+                );
+
+
+                // FIRST: CHECK USERS NODE
+
+                const userSnapshot =
+
+                    await database
+                        .ref(
+                            "users/" +
+                            user.uid +
+                            "/profileId"
+                        )
+                        .once("value");
+
+
+                let profileId =
+                    userSnapshot.val();
+
+
+                // IF USERS NODE HAS PROFILE ID
+
+                if (profileId) {
+
+                    console.log(
+                        "Profile found from users:",
+                        profileId
+                    );
+
+
+                    window.location.href =
+
+                        "profile.html?id=" +
+
+                        encodeURIComponent(
+                            profileId
+                        );
+
+
+                    return;
+
+                }
+
+
+                // SECOND: SEARCH PROFILES BY OWNER UID
+
+                const profileSnapshot =
+
+                    await database
+                        .ref("profiles")
+                        .orderByChild(
+                            "ownerUid"
+                        )
+                        .equalTo(
+                            user.uid
+                        )
+                        .once("value");
+
+
+                const profiles =
+                    profileSnapshot.val();
+
+
+                console.log(
+                    "Profile search result:",
+                    profiles
+                );
+
+
+                // PROFILE FOUND
+
+                if (profiles) {
+
+                    profileId =
+
+                        Object.keys(
+                            profiles
+                        )[0];
+
+
+                    // SAVE PROFILE ID FOR FUTURE
+
+                    await database
+                        .ref(
+                            "users/" +
+                            user.uid
+                        )
+                        .update({
+
+                            profileId:
+                                profileId
+
+                        });
+
+
+                    window.location.href =
+
+                        "profile.html?id=" +
+
+                        encodeURIComponent(
+                            profileId
+                        );
+
+                }
+
+                // NO PROFILE FOUND
+
+                else {
+
+                    window.location.href =
+
+                        "create-profile.html";
+
+                }
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "My Profile Error:",
+                    error
+                );
+
+
+                alert(
+                    "Unable to load your profile."
+                );
 
             }
 
