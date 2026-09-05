@@ -744,18 +744,9 @@ const profileData = {
     // KEEP ORIGINAL PROFILE OWNER
     // =============================================
 
-    ownerUid:
-
-        existingProfileData
-            ? existingProfileData.ownerUid
-            : (
-                auth &&
-                auth.currentUser
-
-                    ? auth.currentUser.uid
-
-                    : null
-            ),
+    ownerUid: existingProfileData
+    ? existingProfileData.ownerUid
+    : auth.currentUser.uid,
 
 
     fullName:
