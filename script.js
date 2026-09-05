@@ -834,6 +834,18 @@ const profileData = {
                 await profileReference.set(
                     profileData
                 );
+                // Save this profile ID under the current user
+
+await database
+    .ref(
+        "users/" +
+        auth.currentUser.uid
+    )
+    .update({
+
+        profileId: profileId
+
+    });
 
 
 
