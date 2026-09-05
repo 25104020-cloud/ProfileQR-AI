@@ -1114,3 +1114,253 @@ button:active,
     }
 
 }
+/* =========================================
+   STEP 2: PREMIUM HERO + QR ANIMATION
+========================================= */
+
+
+/* -----------------------------------------
+   HERO TITLE - SMOOTH ENTRANCE
+----------------------------------------- */
+
+.hero h1 {
+    animation: heroTitleAppear 0.9s ease-out;
+}
+
+@keyframes heroTitleAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* -----------------------------------------
+   HERO TEXT - SMOOTH ENTRANCE
+----------------------------------------- */
+
+.hero-text {
+    animation: heroTextAppear 1.1s ease-out;
+}
+
+@keyframes heroTextAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* -----------------------------------------
+   HERO BADGE
+----------------------------------------- */
+
+.badge {
+    animation: badgeAppear 0.8s ease-out;
+}
+
+@keyframes badgeAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* -----------------------------------------
+   HERO BUTTONS
+----------------------------------------- */
+
+.hero-buttons {
+    animation: buttonsAppear 1.3s ease-out;
+}
+
+@keyframes buttonsAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================
+   QR CARD FLOATING ANIMATION
+========================================= */
+
+.qr-card {
+
+    animation:
+        qrAppear 1s ease-out,
+        qrFloat 4s ease-in-out infinite;
+
+}
+
+
+/* QR CARD ENTRANCE */
+
+@keyframes qrAppear {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateX(40px)
+            scale(0.95);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateX(0)
+            scale(1);
+
+    }
+
+}
+
+
+/* QR CARD FLOATING */
+
+@keyframes qrFloat {
+
+    0%,
+    100% {
+
+        transform:
+            translateY(0);
+
+    }
+
+    50% {
+
+        transform:
+            translateY(-12px);
+
+    }
+
+}
+
+
+/* =========================================
+   QR CARD PREMIUM GLOW
+========================================= */
+
+.qr-card {
+
+    box-shadow:
+
+        0 20px 60px
+        rgba(0, 0, 0, 0.45),
+
+        0 0 35px
+        rgba(56, 189, 248, 0.08);
+
+}
+
+
+/* =========================================
+   PROFILE ICON PULSE
+========================================= */
+
+.profile-circle {
+
+    animation:
+
+        profilePulse
+        3s ease-in-out
+        infinite;
+
+}
+
+
+@keyframes profilePulse {
+
+    0%,
+    100% {
+
+        transform:
+            scale(1);
+
+    }
+
+    50% {
+
+        transform:
+            scale(1.06);
+
+    }
+
+}
+
+
+/* =========================================
+   QR IMAGE SMOOTH EFFECT
+========================================= */
+
+.qr-card img {
+
+    transition:
+
+        transform 0.4s ease;
+
+}
+
+
+.qr-card:hover img {
+
+    transform:
+
+        scale(1.04);
+
+}
+
+
+/* =========================================
+   REDUCE MOTION ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    * {
+
+        animation:
+            none !important;
+
+        transition:
+            none !important;
+
+    }
+
+}
