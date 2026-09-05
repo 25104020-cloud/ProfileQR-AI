@@ -3713,3 +3713,72 @@ document.addEventListener(
 
     }
 );
+// =============================================
+// STEP 3: SCROLL REVEAL ANIMATION
+// =============================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const revealElements =
+            document.querySelectorAll(
+
+                ".feature-card, .step-card"
+            );
+
+
+        const revealObserver =
+            new IntersectionObserver(
+
+                function (entries) {
+
+                    entries.forEach(
+
+                        function (entry) {
+
+                            if (
+                                entry.isIntersecting
+                            ) {
+
+                                entry.target.classList.add(
+                                    "reveal-visible"
+                                );
+
+                            }
+
+                        }
+
+                    );
+
+                },
+
+                {
+
+                    threshold: 0.15
+
+                }
+
+            );
+
+
+        revealElements.forEach(
+
+            function (element) {
+
+                element.classList.add(
+                    "reveal"
+                );
+
+
+                revealObserver.observe(
+                    element
+                );
+
+            }
+
+        );
+
+    }
+
+);
