@@ -788,51 +788,42 @@ body {
 
 @media (max-width: 600px) {
 
-    /* Navbar */
-    nav {
-        padding: 15px 12px;
-        gap: 8px;
+    .navbar {
+        padding: 12px 15px;
+        display: flex;
         align-items: center;
+        gap: 6px;
+        flex-wrap: nowrap;
     }
 
 
     /* Logo */
-    .logo {
+    .navbar .logo {
         font-size: 20px;
-        line-height: 1.2;
-        max-width: 115px;
+        min-width: 105px;
+        line-height: 1.1;
     }
 
 
-    /* Navigation buttons */
-    #createProfileNav,
-    #myProfileButton,
-    #logoutButton {
+    /* Hide normal navigation links on mobile */
+    .navbar .nav-links {
+        display: none;
+    }
 
+
+    /* All navbar buttons */
+    .navbar .nav-button {
         font-size: 11px;
-
-        padding: 7px 8px;
-
+        padding: 8px 9px;
         white-space: nowrap;
-
         min-width: auto;
-
         margin: 0;
-
     }
 
 
-    /* Create Profile button */
-    #createProfileNav {
-        padding: 7px 9px;
-    }
-
-
-    /* Navigation container if available */
-    .nav-buttons {
-        display: flex;
-        align-items: center;
-        gap: 6px;
+    /* Create Profile */
+    .navbar .nav-button:first-of-type {
+        padding: 8px 10px;
     }
 
 }
