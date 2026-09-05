@@ -876,3 +876,241 @@ button:hover,
 html {
     scroll-behavior: smooth;
 }
+/* =========================================
+   PROFILEQR AI - VISIBLE UI POLISH
+========================================= */
+
+/* ---------- NAVBAR ---------- */
+
+.navbar {
+    background: rgba(11, 17, 32, 0.96);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(12px);
+}
+
+
+/* Navbar buttons */
+
+.nav-button {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(
+        135deg,
+        #38bdf8,
+        #0ea5e9
+    );
+
+    border: 1px solid rgba(125, 211, 252, 0.3);
+
+    box-shadow:
+        0 6px 18px
+        rgba(56, 189, 248, 0.15);
+}
+
+
+.nav-button:hover {
+    background: linear-gradient(
+        135deg,
+        #7dd3fc,
+        #38bdf8
+    );
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 12px 30px
+        rgba(56, 189, 248, 0.3);
+}
+
+
+/* ---------- HERO ---------- */
+
+.hero {
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(56, 189, 248, 0.08),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 80% 60%,
+            rgba(37, 99, 235, 0.08),
+            transparent 30%
+        );
+}
+
+
+/* Hero badge */
+
+.badge {
+    box-shadow:
+        0 0 25px
+        rgba(56, 189, 248, 0.08);
+
+    border:
+        1px solid
+        rgba(56, 189, 248, 0.15);
+}
+
+
+/* Hero title */
+
+.hero h1 {
+    letter-spacing: -1px;
+}
+
+
+/* Hero buttons */
+
+.primary-btn {
+    box-shadow:
+        0 8px 25px
+        rgba(56, 189, 248, 0.25);
+}
+
+
+.primary-btn:hover {
+    box-shadow:
+        0 14px 35px
+        rgba(56, 189, 248, 0.35);
+}
+
+
+.secondary-btn:hover {
+    background: rgba(56, 189, 248, 0.08);
+}
+
+
+/* ---------- QR CARD ---------- */
+
+.qr-card {
+    position: relative;
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
+}
+
+
+.qr-card:hover {
+    transform: translateY(-8px);
+
+    border-color:
+        rgba(56, 189, 248, 0.6);
+
+    box-shadow:
+        0 25px 70px
+        rgba(0, 0, 0, 0.5);
+}
+
+
+/* Profile icon glow */
+
+.profile-circle {
+    box-shadow:
+        0 0 30px
+        rgba(56, 189, 248, 0.1);
+}
+
+
+/* ---------- FEATURE CARDS ---------- */
+
+.feature-card {
+    position: relative;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 8px 25px
+        rgba(0, 0, 0, 0.12);
+}
+
+
+.feature-card:hover {
+    border-color:
+        rgba(56, 189, 248, 0.7);
+
+    box-shadow:
+        0 20px 45px
+        rgba(0, 0, 0, 0.25);
+}
+
+
+/* ---------- HOW IT WORKS ---------- */
+
+.step-card {
+    border:
+        1px solid
+        rgba(15, 23, 42, 0.05);
+}
+
+
+.step-number {
+    box-shadow:
+        0 8px 20px
+        rgba(37, 99, 235, 0.25);
+}
+
+
+/* ---------- SECTION TITLES ---------- */
+
+.features > h2,
+.how-it-works h2 {
+    letter-spacing: -0.5px;
+}
+
+
+/* ---------- BUTTON CLICK EFFECT ---------- */
+
+button:active,
+.nav-button:active,
+.primary-btn:active,
+.secondary-btn:active {
+    transform: scale(0.97);
+}
+
+
+/* =========================================
+   MOBILE UI POLISH
+========================================= */
+
+@media (max-width: 600px) {
+
+    .hero {
+        padding: 55px 6%;
+    }
+
+
+    .hero h1 {
+        font-size: 38px;
+    }
+
+
+    .hero-text {
+        font-size: 16px;
+    }
+
+
+    .hero-buttons {
+        width: 100%;
+    }
+
+
+    .primary-btn,
+    .secondary-btn {
+        flex: 1;
+        padding: 14px 12px;
+    }
+
+
+    .qr-card {
+        width: min(100%, 330px);
+    }
+
+}
