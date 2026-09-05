@@ -2517,31 +2517,21 @@ function testBio() {
 
     ) {
 
-        professionalBio =
+       professionalBio =
 
-            name +
+    "I am a dedicated " +
 
-            " is a dedicated " +
+    (title || "healthcare professional") +
 
-            (title || "healthcare professional") +
+    " with a strong interest in medicine, healthcare and patient well-being. " +
 
-            " with a strong interest in medicine, healthcare and patient well-being. " +
+    "With knowledge and experience in " +
 
-            "With knowledge and experience in " +
+    (skills || "healthcare and medical practices") +
 
-            (skills || "healthcare and medical practices") +
+    ", I am committed to providing compassionate and responsible care. " +
 
-            ", " +
-
-            name +
-
-            " is committed to providing compassionate and responsible care. " +
-
-            "Driven by continuous learning and professional growth, " +
-
-            name +
-
-            " aims to contribute positively to the healthcare community and improve lives.";
+    "Driven by continuous learning and professional growth, my goal is to contribute positively to the healthcare community and improve lives.";
 
     }
 
