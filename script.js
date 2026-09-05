@@ -2330,17 +2330,22 @@ function setupQRDownload() {
 
 
 // =====================================================
-// 9. AI BIO GENERATOR
+// AI-STYLE SMART BIO GENERATOR
 // =====================================================
 
 function testBio() {
 
     const bioInput =
+        document.getElementById("bio");
 
-        document.getElementById(
-            "bio"
-        );
+    const fullNameInput =
+        document.getElementById("fullName");
 
+    const titleInput =
+        document.getElementById("title");
+
+    const skillsInput =
+        document.getElementById("skills");
 
 
     if (!bioInput) {
@@ -2350,80 +2355,35 @@ function testBio() {
     }
 
 
-
-    const fullNameInput =
-
-        document.getElementById(
-            "fullName"
-        );
-
-
-
-    const titleInput =
-
-        document.getElementById(
-            "title"
-        );
-
-
-
-    const skillsInput =
-
-        document.getElementById(
-            "skills"
-        );
-
-
-
     const fullName =
-
         fullNameInput
-
             ? fullNameInput.value.trim()
-
             : "";
-
 
 
     const title =
-
         titleInput
-
             ? titleInput.value.trim()
-
             : "";
-
 
 
     const skills =
-
         skillsInput
-
             ? skillsInput.value.trim()
-
             : "";
 
 
-
-    // =================================================
-    // USER DESCRIPTION
-    // =================================================
+    // User's description
 
     const userText =
-
         bioInput.value.trim();
-
 
 
     if (!userText) {
 
         alert(
-
             "Please write a few details about yourself first."
-
         );
-
-
 
         bioInput.focus();
 
@@ -2432,88 +2392,297 @@ function testBio() {
     }
 
 
+    // Combine all information for smart detection
 
-    let professionalBio =
-        "";
+    const allText = (
+
+        fullName + " " +
+        title + " " +
+        skills + " " +
+        userText
+
+    ).toLowerCase();
 
 
+    let professionalBio = "";
 
-    if (fullName) {
+    const name =
+        fullName || "A motivated professional";
 
-        professionalBio +=
 
-            fullName +
+    // =============================================
+    // WEB DEVELOPMENT / SOFTWARE
+    // =============================================
 
-            " is ";
+    if (
+
+        allText.includes("web") ||
+        allText.includes("frontend") ||
+        allText.includes("backend") ||
+        allText.includes("full stack") ||
+        allText.includes("html") ||
+        allText.includes("css") ||
+        allText.includes("javascript") ||
+        allText.includes("software developer")
+
+    ) {
+
+        professionalBio =
+
+            name +
+
+            " is a passionate " +
+
+            (title || "Web Developer") +
+
+            " with a strong interest in designing and building modern digital solutions. " +
+
+            "With skills in " +
+
+            (skills || "web technologies") +
+
+            ", " +
+
+            name +
+
+            " focuses on creating responsive, user-friendly and innovative web applications. " +
+
+            "Driven by creativity and continuous learning, " +
+
+            name +
+
+            " aims to solve real-world problems through technology.";
 
     }
+
+
+    // =============================================
+    // COMPUTER SCIENCE / COMPUTING INTELLIGENCE
+    // =============================================
+
+    else if (
+
+        allText.includes("computer science") ||
+        allText.includes("cse") ||
+        allText.includes("computing intelligence") ||
+        allText.includes("ci") ||
+        allText.includes("artificial intelligence") ||
+        allText.includes("machine learning") ||
+        allText.includes("ai")
+
+    ) {
+
+        professionalBio =
+
+            name +
+
+            " is a " +
+
+            (title || "Computer Science enthusiast") +
+
+            " with a strong interest in Computing Intelligence, Artificial Intelligence and emerging technologies. " +
+
+            "With knowledge of " +
+
+            (skills || "programming and modern computing technologies") +
+
+            ", " +
+
+            name +
+
+            " enjoys exploring intelligent systems and innovative digital solutions. " +
+
+            "Passionate about research, problem-solving and continuous learning, " +
+
+            name +
+
+            " aims to apply technology to solve meaningful real-world challenges.";
+
+    }
+
+
+    // =============================================
+    // MEDICAL / HEALTHCARE
+    // =============================================
+
+    else if (
+
+        allText.includes("medical") ||
+        allText.includes("doctor") ||
+        allText.includes("health") ||
+        allText.includes("healthcare") ||
+        allText.includes("medicine") ||
+        allText.includes("nurse") ||
+        allText.includes("mbbs")
+
+    ) {
+
+        professionalBio =
+
+            name +
+
+            " is a dedicated " +
+
+            (title || "healthcare professional") +
+
+            " with a strong interest in medicine, healthcare and patient well-being. " +
+
+            "With knowledge and experience in " +
+
+            (skills || "healthcare and medical practices") +
+
+            ", " +
+
+            name +
+
+            " is committed to providing compassionate and responsible care. " +
+
+            "Driven by continuous learning and professional growth, " +
+
+            name +
+
+            " aims to contribute positively to the healthcare community and improve lives.";
+
+    }
+
+
+    // =============================================
+    // BUSINESS / ENTREPRENEURSHIP
+    // =============================================
+
+    else if (
+
+        allText.includes("business") ||
+        allText.includes("entrepreneur") ||
+        allText.includes("marketing") ||
+        allText.includes("management") ||
+        allText.includes("startup") ||
+        allText.includes("finance")
+
+    ) {
+
+        professionalBio =
+
+            name +
+
+            " is an ambitious " +
+
+            (title || "business professional") +
+
+            " with a strong interest in business growth, innovation and strategic development. " +
+
+            "With skills in " +
+
+            (skills || "business and management") +
+
+            ", " +
+
+            name +
+
+            " enjoys identifying opportunities, solving challenges and creating meaningful value. " +
+
+            "Focused on continuous growth and innovation, " +
+
+            name +
+
+            " aims to build successful and impactful professional ventures.";
+
+    }
+
+
+    // =============================================
+    // ENGINEERING
+    // =============================================
+
+    else if (
+
+        allText.includes("engineer") ||
+        allText.includes("engineering")
+
+    ) {
+
+        professionalBio =
+
+            name +
+
+            " is a motivated " +
+
+            (title || "engineering professional") +
+
+            " with a strong interest in innovation, technology and practical problem-solving. " +
+
+            "With skills in " +
+
+            (skills || "engineering concepts and modern technologies") +
+
+            ", " +
+
+            name +
+
+            " enjoys developing efficient solutions to real-world challenges. " +
+
+            "Committed to continuous learning and professional development, " +
+
+            name +
+
+            " aims to contribute to impactful technological and engineering innovations.";
+
+    }
+
+
+    // =============================================
+    // GENERAL PROFESSIONAL BIO
+    // =============================================
 
     else {
 
-        professionalBio +=
-            "I am ";
+        professionalBio =
 
-    }
+            name +
 
+            " is a motivated " +
 
+            (title || "professional") +
 
-    if (title) {
+            " with a strong interest in " +
 
-        professionalBio +=
-
-            "a " +
-
-            title +
-
-            " ";
-
-    }
-
-    else {
-
-        professionalBio +=
-
-            "a motivated and enthusiastic professional ";
-
-    }
-
-
-
-    professionalBio +=
-
-        "with a strong interest in " +
-
-        userText +
-
-        ". ";
-
-
-
-    if (skills) {
-
-        professionalBio +=
-
-            "Skilled in " +
-
-            skills +
+            userText +
 
             ". ";
 
+
+        if (skills) {
+
+            professionalBio +=
+
+                "Skilled in " +
+
+                skills +
+
+                ". ";
+
+        }
+
+
+        professionalBio +=
+
+            "With a focus on continuous learning and professional growth, " +
+
+            name +
+
+            " is passionate about developing new skills, exploring opportunities and contributing meaningfully in their chosen field.";
+
     }
 
 
-
-    professionalBio +=
-
-        "Passionate about continuous learning, innovation, problem-solving, and building meaningful digital solutions.";
-
-
+    // =============================================
+    // SHOW GENERATED BIO
+    // =============================================
 
     bioInput.value =
         professionalBio;
 
 }
-
 
 
 // =====================================================
