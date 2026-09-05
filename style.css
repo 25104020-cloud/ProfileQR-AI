@@ -783,19 +783,56 @@ body {
 
 }
 /* =========================================
-   MOBILE NAVIGATION BUTTON FIX
+   MOBILE NAVBAR FIX
 ========================================= */
 
 @media (max-width: 600px) {
 
+    /* Navbar */
+    nav {
+        padding: 15px 12px;
+        gap: 8px;
+        align-items: center;
+    }
+
+
+    /* Logo */
+    .logo {
+        font-size: 20px;
+        line-height: 1.2;
+        max-width: 115px;
+    }
+
+
+    /* Navigation buttons */
     #createProfileNav,
     #myProfileButton,
     #logoutButton {
 
-        font-size: 12px;
-        padding: 8px 10px;
+        font-size: 11px;
+
+        padding: 7px 8px;
+
+        white-space: nowrap;
+
         min-width: auto;
 
+        margin: 0;
+
+    }
+
+
+    /* Create Profile button */
+    #createProfileNav {
+        padding: 7px 9px;
+    }
+
+
+    /* Navigation container if available */
+    .nav-buttons {
+        display: flex;
+        align-items: center;
+        gap: 6px;
     }
 
 }
