@@ -319,6 +319,10 @@
         getGenerativeModel,
         GoogleAIBackend
     } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-ai.js";
+    import {
+    initializeAppCheck,
+    ReCaptchaEnterpriseProvider
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app-check.js";
 
     const aiApp = initializeApp({
         apiKey: "AIzaSyB1OmhI6HjKDqDUezDaV0WMjohwu7P491U",
@@ -329,6 +333,11 @@
         messagingSenderId: "978918324164",
         appId: "1:978918324164:web:513508e496731fec961691"
     }, "aiApp");
+
+    const appCheck = initializeAppCheck(aiApp, {
+    provider: new ReCaptchaEnterpriseProvider("6LeV8LYtAAAAAPJfTKxmrWyOBtX6l64i8_P53r-c"),
+    isTokenAutoRefreshEnabled: true
+});
 
     const ai = getAI(aiApp, {
         backend: new GoogleAIBackend()
