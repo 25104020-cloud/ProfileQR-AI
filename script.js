@@ -2358,12 +2358,11 @@ async function testBio() {
 
     const userText = bioInput.value.trim();
 
-    if (!userText) {
-        alert("Please write a few details about yourself first.");
-        bioInput.focus();
-        return;
-    }
-
+   if (!userText && !title && !skills) {
+    alert("Please enter your Professional Title, Skills, or some information about yourself.");
+    bioInput.focus();
+    return;
+}
     // Check if Gemini AI is available
     if (!window.profileQRAIModel) {
         alert(
