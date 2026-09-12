@@ -2330,348 +2330,137 @@ function setupQRDownload() {
 
 
 // =====================================================
-// AI-STYLE SMART BIO GENERATOR
+// REAL AI BIO GENERATOR - FIREBASE AI LOGIC + GEMINI
 // =====================================================
 
-function testBio() {
+async function testBio() {
 
-    const bioInput =
-        document.getElementById("bio");
-
-    const fullNameInput =
-        document.getElementById("fullName");
-
-    const titleInput =
-        document.getElementById("title");
-
-    const skillsInput =
-        document.getElementById("skills");
-
+    const bioInput = document.getElementById("bio");
+    const fullNameInput = document.getElementById("fullName");
+    const titleInput = document.getElementById("title");
+    const skillsInput = document.getElementById("skills");
 
     if (!bioInput) {
-
         return;
-
     }
 
+    const fullName = fullNameInput
+        ? fullNameInput.value.trim()
+        : "";
 
-    const fullName =
-        fullNameInput
-            ? fullNameInput.value.trim()
-            : "";
+    const title = titleInput
+        ? titleInput.value.trim()
+        : "";
 
+    const skills = skillsInput
+        ? skillsInput.value.trim()
+        : "";
 
-    const title =
-        titleInput
-            ? titleInput.value.trim()
-            : "";
-
-
-    const skills =
-        skillsInput
-            ? skillsInput.value.trim()
-            : "";
-
-
-    // User's description
-
-    const userText =
-        bioInput.value.trim();
-
+    const userText = bioInput.value.trim();
 
     if (!userText) {
-
-        alert(
-            "Please write a few details about yourself first."
-        );
-
+        alert("Please write a few details about yourself first.");
         bioInput.focus();
-
         return;
-
     }
 
-
-    // Combine all information for smart detection
-
-    const allText = (
-
-        fullName + " " +
-        title + " " +
-        skills + " " +
-        userText
-
-    ).toLowerCase();
-
-
-    let professionalBio = "";
-
-    const name =
-        fullName || "A motivated professional";
-
-
-    // =============================================
-    // WEB DEVELOPMENT / SOFTWARE
-    // =============================================
-
-    if (
-
-        allText.includes("web") ||
-        allText.includes("frontend") ||
-        allText.includes("backend") ||
-        allText.includes("full stack") ||
-        allText.includes("html") ||
-        allText.includes("css") ||
-        allText.includes("javascript") ||
-        allText.includes("software developer")
-
-    ) {
-
-        professionalBio =
-
-            name +
-
-            " is a passionate " +
-
-            (title || "Web Developer") +
-
-            " with a strong interest in designing and building modern digital solutions. " +
-
-            "With skills in " +
-
-            (skills || "web technologies") +
-
-            ", " +
-
-            name +
-
-            " focuses on creating responsive, user-friendly and innovative web applications. " +
-
-            "Driven by creativity and continuous learning, " +
-
-            name +
-
-            " aims to solve real-world problems through technology.";
-
+    // Check if Gemini AI is available
+    if (!window.profileQRAIModel) {
+        alert(
+            "AI is still loading. Please wait a few seconds and try again."
+        );
+        return;
     }
 
+    const button = document.querySelector(
+        'button[onclick="testBio()"]'
+    );
 
-    // =============================================
-    // COMPUTER SCIENCE / COMPUTING INTELLIGENCE
-    // =============================================
+    const originalText = button
+        ? button.innerText
+        : "Generate AI Bio";
 
-    else if (
-
-        allText.includes("computer science") ||
-        allText.includes("cse") ||
-        allText.includes("computing intelligence") ||
-        allText.includes("ci") ||
-        allText.includes("artificial intelligence") ||
-        allText.includes("machine learning") ||
-        allText.includes("ai")
-
-    ) {
-
-        professionalBio =
-
-            name +
-
-            " is a " +
-
-            (title || "Computer Science enthusiast") +
-
-            " with a strong interest in Computing Intelligence, Artificial Intelligence and emerging technologies. " +
-
-            "With knowledge of " +
-
-            (skills || "programming and modern computing technologies") +
-
-            ", " +
-
-            name +
-
-            " enjoys exploring intelligent systems and innovative digital solutions. " +
-
-            "Passionate about research, problem-solving and continuous learning, " +
-
-            name +
-
-            " aims to apply technology to solve meaningful real-world challenges.";
-
+    if (button) {
+        button.disabled = true;
+        button.innerText = "Generating AI Bio...";
     }
 
+    try {
 
-    // =============================================
-    // MEDICAL / HEALTHCARE
-    // =============================================
+        const prompt = `
+You are a professional career-profile writer.
 
-    else if (
+Create a polished and professional About Me biography for a digital professional profile.
 
-        allText.includes("medical") ||
-        allText.includes("doctor") ||
-        allText.includes("health") ||
-        allText.includes("healthcare") ||
-        allText.includes("medicine") ||
-        allText.includes("nurse") ||
-        allText.includes("mbbs")
+Understand the person's actual profession, role, field, skills and interests from the information provided.
 
-    ) {
+IMPORTANT RULES:
+- Do NOT use hard-coded profession templates.
+- Do NOT assume the person is a CSE student.
+- Do NOT invent jobs, companies, degrees, experience, achievements, certifications or skills.
+- Use ONLY the information provided.
+- Clearly reflect the person's actual professional field.
+- Make the writing natural, confident and professional.
+- Write in third person using the person's name.
+- Keep the biography between 70 and 110 words.
+- Avoid repetitive and generic sentences.
+- Do not add a heading.
+- Return ONLY the final biography.
 
-       professionalBio =
+PERSON INFORMATION:
 
-    "I am a dedicated " +
+Name:
+${fullName || "Not provided"}
 
-    (title || "healthcare professional") +
+Professional Title:
+${title || "Not provided"}
 
-    " with a strong interest in medicine, healthcare and patient well-being. " +
+Skills:
+${skills || "Not provided"}
 
-    "With knowledge and experience in " +
+Additional Information:
+${userText}
+`;
 
-    (skills || "healthcare and medical practices") +
+        const result =
+            await window.profileQRAIModel.generateContent(prompt);
 
-    ", I am committed to providing compassionate and responsible care. " +
+        const professionalBio =
+            result.response.text().trim();
 
-    "Driven by continuous learning and professional growth, my goal is to contribute positively to the healthcare community and improve lives.";
-
-    }
-
-
-    // =============================================
-    // BUSINESS / ENTREPRENEURSHIP
-    // =============================================
-
-    else if (
-
-        allText.includes("business") ||
-        allText.includes("entrepreneur") ||
-        allText.includes("marketing") ||
-        allText.includes("management") ||
-        allText.includes("startup") ||
-        allText.includes("finance")
-
-    ) {
-
-        professionalBio =
-
-            name +
-
-            " is an ambitious " +
-
-            (title || "business professional") +
-
-            " with a strong interest in business growth, innovation and strategic development. " +
-
-            "With skills in " +
-
-            (skills || "business and management") +
-
-            ", " +
-
-            name +
-
-            " enjoys identifying opportunities, solving challenges and creating meaningful value. " +
-
-            "Focused on continuous growth and innovation, " +
-
-            name +
-
-            " aims to build successful and impactful professional ventures.";
-
-    }
-
-
-    // =============================================
-    // ENGINEERING
-    // =============================================
-
-    else if (
-
-        allText.includes("engineer") ||
-        allText.includes("engineering")
-
-    ) {
-
-        professionalBio =
-
-            name +
-
-            " is a motivated " +
-
-            (title || "engineering professional") +
-
-            " with a strong interest in innovation, technology and practical problem-solving. " +
-
-            "With skills in " +
-
-            (skills || "engineering concepts and modern technologies") +
-
-            ", " +
-
-            name +
-
-            " enjoys developing efficient solutions to real-world challenges. " +
-
-            "Committed to continuous learning and professional development, " +
-
-            name +
-
-            " aims to contribute to impactful technological and engineering innovations.";
-
-    }
-
-
-    // =============================================
-    // GENERAL PROFESSIONAL BIO
-    // =============================================
-
-    else {
-
-        professionalBio =
-
-            name +
-
-            " is a motivated " +
-
-            (title || "professional") +
-
-            " with a strong interest in " +
-
-            userText +
-
-            ". ";
-
-
-        if (skills) {
-
-            professionalBio +=
-
-                "Skilled in " +
-
-                skills +
-
-                ". ";
-
+        if (!professionalBio) {
+            throw new Error("AI returned an empty response.");
         }
 
+        // Put generated bio into About Me
+        bioInput.value = professionalBio;
 
-        professionalBio +=
+        // Notify other page scripts that the value changed
+        bioInput.dispatchEvent(
+            new Event("input", {
+                bubbles: true
+            })
+        );
 
-            "With a focus on continuous learning and professional growth, " +
+    } catch (error) {
 
-            name +
+        console.error(
+            "AI Bio Generation Error:",
+            error
+        );
 
-            " is passionate about developing new skills, exploring opportunities and contributing meaningfully in their chosen field.";
+        alert(
+            "Unable to generate the AI bio right now. Please try again."
+        );
+
+    } finally {
+
+        if (button) {
+            button.disabled = false;
+            button.innerText = originalText;
+        }
 
     }
-
-
-    // =============================================
-    // SHOW GENERATED BIO
-    // =============================================
-
-    bioInput.value =
-        professionalBio;
-
 }
 
 
