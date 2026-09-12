@@ -2395,18 +2395,22 @@ Create a polished and professional About Me biography for a digital professional
 Understand the person's actual profession, role, field, skills and interests from the information provided.
 
 IMPORTANT RULES:
+- This must be a genuinely personalized AI-generated biography.
 - Do NOT use hard-coded profession templates.
-- Do NOT assume the person is a CSE student.
+- Do NOT assume the person is a CSE student, software developer, engineer, or any other profession unless the information provided supports it.
+- Treat the "Additional Information" field as the PRIMARY source for understanding the person's profession, interests, career goal, or specialization.
+- Use the Professional Title and Skills as supporting information.
+- If the Additional Information says "Cyber Security", understand it as an interest or specialization in Cyber Security.
+- If it mentions another field such as "Graphic Design", "Digital Marketing", "Mechanical Engineering", "Finance", "Photography", "Data Science", etc., reflect THAT field instead.
+- Do NOT force the biography toward Computer Science or Artificial Intelligence just because the person has programming skills or a CSE education.
 - Do NOT invent jobs, companies, degrees, experience, achievements, certifications or skills.
 - Use ONLY the information provided.
-- Clearly reflect the person's actual professional field.
-- Make the writing natural, confident and professional.
+- Make the biography naturally match the person's actual field and interests.
 - Write in third person using the person's name.
 - Keep the biography between 70 and 110 words.
 - Avoid repetitive and generic sentences.
 - Do not add a heading.
 - Return ONLY the final biography.
-
 PERSON INFORMATION:
 
 Name:
