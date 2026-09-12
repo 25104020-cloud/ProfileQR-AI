@@ -309,6 +309,35 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script type="module">
+    import {
+        initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+    import {
+        getAI,
+        getGenerativeModel,
+        GoogleAIBackend
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-ai.js";
+
+    const aiApp = initializeApp({
+        apiKey: "AIzaSyB1OmhI6HjKDqDUezDaV0WMjohwu7P491U",
+        authDomain: "profileqr-ai.firebaseapp.com",
+        databaseURL: "https://profileqr-ai-default-rtdb.firebaseio.com",
+        projectId: "profileqr-ai",
+        storageBucket: "profileqr-ai.firebasestorage.app",
+        messagingSenderId: "978918324164",
+        appId: "1:978918324164:web:513508e496731fec961691"
+    }, "aiApp");
+
+    const ai = getAI(aiApp, {
+        backend: new GoogleAIBackend()
+    });
+
+    window.profileQRAIModel = getGenerativeModel(ai, {
+        model: "gemini-3.7-flash"
+    });
+</script>
 
 <!-- QR Code Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
