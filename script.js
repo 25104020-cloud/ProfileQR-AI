@@ -2394,20 +2394,24 @@ Create a polished and professional About Me biography for a digital professional
 Understand the person's actual profession, role, field, skills and interests from the information provided.
 
 IMPORTANT RULES:
-- This must be a genuinely personalized AI-generated biography.
+- Create a genuinely personalized professional biography based on the information provided.
 - Do NOT use hard-coded profession templates.
-- Do NOT assume the person is a CSE student, software developer, engineer, or any other profession unless the information provided supports it.
-- Treat the "Additional Information" field as the PRIMARY source for understanding the person's profession, interests, career goal, or specialization.
+- Do NOT assume the person is a CSE student, software developer, engineer, or any other profession unless the information supports it.
+- Treat the "Additional Information" as the PRIMARY source for identifying the person's main field, interest, specialization, or career direction.
 - Use the Professional Title and Skills as supporting information.
-- If the Additional Information says "Cyber Security", understand it as an interest or specialization in Cyber Security.
-- If it mentions another field such as "Graphic Design", "Digital Marketing", "Mechanical Engineering", "Finance", "Photography", "Data Science", etc., reflect THAT field instead.
-- Do NOT force the biography toward Computer Science or Artificial Intelligence just because the person has programming skills or a CSE education.
-- Do NOT invent jobs, companies, degrees, experience, achievements, certifications or skills.
+- The main field mentioned in the Additional Information should be clearly reflected throughout the biography.
+- Do NOT force the biography toward Computer Science, Artificial Intelligence, or programming simply because CSE education or programming skills are provided.
+- If the person mentions Cyber Security, focus on Cyber Security.
+- If the person mentions Digital Marketing, focus on Digital Marketing.
+- If the person mentions Graphic Design, Finance, Photography, Mechanical Engineering, Data Science, Healthcare, or another field, focus on that field.
+- Do NOT invent jobs, companies, degrees, experience, achievements, certifications, projects, or skills.
 - Use ONLY the information provided.
-- Make the biography naturally match the person's actual field and interests.
-- Write in third person using the person's name.
+- Do not make unsupported claims about professional experience.
+- Make the biography sound natural, confident, and professional rather than like a generic AI-generated template.
+- Mention the person's relevant strengths and interests naturally.
+- Avoid unnecessary repetition of the person's name.
+- Write in third person.
 - Keep the biography between 70 and 110 words.
-- Avoid repetitive and generic sentences.
 - Do not add a heading.
 - Return ONLY the final biography.
 PERSON INFORMATION:
